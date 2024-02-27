@@ -20,35 +20,44 @@
     <main>
         <?php
         // Conexión a la base de datos
-        $servername = "localhost";
-        $username = "root"; // Cambia esto por tu nombre de usuario
-        $password = ""; // Cambia esto por tu contraseña
-        $dbname = "parques";
+        $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
+        $username = "rzcndrfatvphqy";
+        $password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
+        $dbname = "d2em42nge4v4em";
 
         // Crear conexión
-        $conn = new mysqli($servername, $username, $password, $dbname);
+        $conn = new PDO("pgsql:host= $servername; dbname=$dbname", "$username", "$password");
 
         // Verificar conexión
-        if ($conn->connect_error) {
-            die("Error de conexión: " . $conn->connect_error);
+        $errorInfo = $conn->errorInfo();
+        if ($errorInfo[0] !== PDO::ERR_NONE) {
+            die("Error de conexión: " . $conn->errorCode());
         }
 
         // Consulta SQL para obtener los datos
-        $sql = "SELECT id, estado, ciudad_municipio, colonia, calle, nombre, activo, usuario_activos FROM datos";
-        $result = $conn->query($sql);
+        $consultaTabla = "SELECT id, estado, ciudad_municipio, colonia, calle, nombre, activo, usuario_activos FROM datos";
+        $result = $conn->query($consultaTabla);
 
         // Mostrar los datos en la tabla
-        if ($result->num_rows > 0) {
+        // Intentar fetch los datos directamente
+        if ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            // Si hay al menos una fila, imprimir la cabecera de la tabla
             echo "<table>";
             echo "<tr><th>ID</th><th>Estado</th><th>Ciudad/Municipio</th><th>Colonia</th><th>Calle</th><th>Nombre</th><th>Activo</th><th>Usuarios Activos</th></tr>";
-            while($row = $result->fetch_assoc()) {
+
+            // Imprimir la primera fila
+            echo "<tr><td>".$row["id"]."</td><td>".$row["estado"]."</td><td>".$row["ciudad_municipio"]."</td><td>".$row["colonia"]."</td><td>".$row["calle"]."</td><td>".$row["nombre"]."</td><td>".$row["activo"]."</td><td>".$row["usuario_activos"]."</td></tr>";
+
+            // Continuar imprimiendo el resto de filas
+            while($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr><td>".$row["id"]."</td><td>".$row["estado"]."</td><td>".$row["ciudad_municipio"]."</td><td>".$row["colonia"]."</td><td>".$row["calle"]."</td><td>".$row["nombre"]."</td><td>".$row["activo"]."</td><td>".$row["usuario_activos"]."</td></tr>";
             }
             echo "</table>";
         } else {
+            // Si no hay filas, imprimir un mensaje
             echo "0 resultados";
         }
-        $conn->close();
+        $conn = null;
         ?>
     </main>
 </body>
