@@ -36,7 +36,7 @@ if (isset($_POST["login"])) {
             // Contraseña correcta
             session_start();
             $_SESSION['usuario'] = $usuario['nombre']; // Guardar información del usuario en la sesión
-            header("Location: inicio.php"); // Redirigir a la página de inicio
+            header("Location: tabla.php"); // Redirigir a la página de inicio
             exit;
         } else {
             // Contraseña incorrecta
