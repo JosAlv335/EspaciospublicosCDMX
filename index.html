@@ -32,20 +32,20 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>--> 
                 <p>o usa tu e-mail para registrarte</p>
-                <form id="registerForm" class="form">
+                <form action="index.php" name="loginep" method="post" class="form">
                     <label>
                         <i class='bx bx-user'></i>
-                        <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo">
+                        <input type="text" name="nombre" placeholder="Nombre Completo">
                     </label>
                     <label>
                         <i class='bx bx-envelope'></i>
-                        <input type="email" name="correo" id="correo" placeholder="Correo Electrónico">
+                        <input type="email" name="correo" placeholder="Correo Electrónico">
                     </label>
                     <label>
                         <i class='bx bx-lock-alt'></i>
-                        <input type="password" name="contraseña" id="contraseña" placeholder="Contraseña">
+                        <input type="password" name="contraseña" placeholder="Contraseña">
                     </label>
-                    <input type="button" id="registroButton" value="Registrar">
+                    <input type="submit" name="registro">
                     <input type="reset">
                 </form>
             </div>
@@ -73,22 +73,23 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>
                 <p>o iniciar sesión con una cuenta</p>
-                <form id="loginForm" class="form">
+                <form action="index.php" method="post" class="form">
                     <label>
                         <i class='bx bx-envelope'></i>
-                        <input type="email" name="correo" id="loginCorreo" placeholder="Correo Electrónico">
+                        <input type="email" name="correo" placeholder="Correo Electrónico">
                     </label>
                     <label>
                         <i class='bx bx-lock-alt'></i>
-                        <input type="password" name="contraseña" id="loginContraseña" placeholder="Contraseña">
+                        <input type="password" name="contraseña" placeholder="Contraseña">
                     </label>
-                    <input type="button" id="loginButton" value="Iniciar Sesión">
+                    <input type="submit" name="login" value="Iniciar Sesión">
                 </form>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
+
 </body>
 
 </html>
