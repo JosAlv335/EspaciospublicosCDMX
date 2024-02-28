@@ -1,59 +1,51 @@
 <?php
-$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com"; // O la dirección del servidor de PostgreSQL
+$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com"; // Ejemplo, usa tu servidor real
 $puerto = "5432"; // Puerto por defecto de PostgreSQL
-$usuario = "rzcndrfatvphqy"; // Reemplaza con tu usuario de PostgreSQL
-$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Reemplaza con tu contraseña de PostgreSQL
-$baseDeDatos = "d2em42nge4v4em";
-$cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
-$enlace = pg_connect($cadenaConexion);
+$baseDeDatos = "d2em42nge4v4em"; // Nombre de tu base de datos
+$usuario = "rzcndrfatvphqy"; // Cambia esto por tu usuario
+$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Cambia esto por tu contraseña real
+$dsn = "pgsql:host=$servidor;port=$puerto;dbname=$baseDeDatos;user=$usuario;password=$clave";
 
-if (!$enlace) {
-    die("Error al conectar: " . pg_last_error());
+try {
+    $enlace = new PDO($dsn);
+    $enlace->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Error al conectar: " . $e->getMessage());
 }
 
-if(isset($_POST["registro"])){
-    $nombre = $_POST['nombre'];
+if (isset($_POST["login"])) {
     $correo = $_POST['correo'];
     $contraseña = $_POST['contraseña'];
 
-    // Consulta para verificar si el correo ya existe
-    $consultaCorreo = "SELECT correo FROM users WHERE correo='$correo'";
-    $resultado = pg_query($enlace, $consultaCorreo);
+    // Consulta SQL para obtener el usuario por correo electrónico
+    $consultaUsuario = "SELECT * FROM users WHERE correo = :correo";
+    $stmt = $enlace->prepare($consultaUsuario);
+    $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
+    $stmt->execute();
 
-    // Verificar si se encontraron resultados (correo ya existe)
-    if(pg_num_rows($resultado) > 0) {
-        echo "El correo electrónico ya está registrado. Por favor, utiliza otro correo.";
-    } else {
-        // El correo no existe, insertar los datos en la base de datos
-        $insertarDatos = "INSERT INTO users (nombre, correo, contraseña) VALUES ('$nombre', '$correo', '$contraseña')";
-        $ejecutarInsertar = pg_query($enlace, $insertarDatos);
+    if ($stmt->rowCount() == 1) {
+        // Usuario encontrado, verificar la contraseña
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo "Contraseña almacenada en la base de datos: " . $usuario['contraseña'] . "<br>";
 
-        // Verificar si se pudo insertar correctamente
-        if($ejecutarInsertar) {
-            // Redirigir a tabla.html si se insertó correctamente
-            header("Location: tabla.html");
-            exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
+        // Imprimir la longitud de ambas contraseñas para verificar si son iguales
+        echo "Longitud de la contraseña almacenada: " . strlen($usuario['contraseña']) . "<br>";
+        echo "Longitud de la contraseña proporcionada: " . strlen($contraseña) . "<br>";
+
+        // Comparar contraseñas
+        if (password_verify($contraseña, $usuario['contraseña'])) {
+            // Contraseña correcta
+            session_start();
+            $_SESSION['usuario'] = $usuario['nombre']; // Guardar información del usuario en la sesión
+            header("Location: tabla.html"); // Redirigir a la página de inicio
+            exit();
         } else {
-            echo "Error al registrar. Por favor, intenta nuevamente.";
+            // Contraseña incorrecta
+            echo "Contraseña incorrecta";
         }
-    }
-}
-
-if(isset($_POST["login"])){
-    $correo = $_POST['correo'];
-    $contraseña = $_POST['contraseña'];
-
-    // Consulta para verificar si el correo y la contraseña coinciden
-    $consultaUsuario = "SELECT * FROM users WHERE correo='$correo' AND contraseña='$contraseña'";
-    $resultado = pg_query($enlace, $consultaUsuario);
-
-    // Verificar si se encontró un usuario con el correo y contraseña proporcionados
-    if(pg_num_rows($resultado) == 1) {
-        // Redirigir a tabla.html si el inicio de sesión fue exitoso
-        header("Location: tabla.html");
-        exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
     } else {
-        echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
+        // Usuario no encontrado
+        echo "Correo electrónico no registrado";
     }
 }
 ?>
