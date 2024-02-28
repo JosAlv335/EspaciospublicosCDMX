@@ -12,8 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
 
     try {
-        // Crear la conexión usando PDO
-        $conn = new PDO($dsn);
+        $db = parse_url(getenv("DATABASE_URL"));
+
+        $conn = new PDO("pgsql:" . sprintf(
+            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+            $db["host"],
+            $db["port"],
+            $db["user"],
+            $db["pass"],
+            ltrim($db["path"], "/")
+        ));
+
 
         // Establecer el modo de error de PDO a excepción
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
