@@ -1,40 +1,54 @@
 <?php
 // Verificar si se han enviado datos por POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Conectar a la base de datos
+    // Datos para la conexión a la base de datos PostgreSQL
     $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
     $username = "rzcndrfatvphqy"; // Cambiar por tu nombre de usuario
     $password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Cambiar por tu contraseña
     $dbname = "d2em42nge4v4em";
+    $port = "5432"; // Puerto por defecto de PostgreSQL
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Cadena de conexión DSN para PostgreSQL
+    $dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
 
-    // Verificar la conexión
-    if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
-    }
+    try {
+        // Crear la conexión usando PDO
+        $conn = new PDO($dsn);
 
-    // Recibir datos del formulario
-    $id = $_POST['id'];
-    $estado = $_POST['estado'];
-    $ciudad_municipio = $_POST['ciudad_municipio'];
-    $colonia = $_POST['colonia'];
-    $calle = $_POST['calle'];
-    $nombre = $_POST['nombre'];
+        // Establecer el modo de error de PDO a excepción
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Preparar la consulta SQL para actualizar
-    $sql = "UPDATE datos 
-            SET estado='$estado', ciudad_municipio='$ciudad_municipio', colonia='$colonia', calle='$calle', nombre='$nombre'
-            WHERE id='$id'";
+        // Recibir datos del formulario
+        $id = $_POST['id'];
+        $estado = $_POST['estado'];
+        $ciudad_municipio = $_POST['ciudad_municipio'];
+        $colonia = $_POST['colonia'];
+        $calle = $_POST['calle'];
+        $nombre = $_POST['nombre'];
 
-    // Ejecutar la consulta SQL
-    if ($conn->query($sql) === TRUE) {
+        // Preparar la consulta SQL para actualizar usando sentencias preparadas
+        $sql = "UPDATE datos SET estado=?, ciudad_municipio=?, colonia=?, calle=?, nombre=? WHERE id=?";
+
+        // Preparar la sentencia
+        $stmt = $conn->prepare($sql);
+
+        // Vincular los parámetros a la sentencia
+        $stmt->bindParam(1, $estado);
+        $stmt->bindParam(2, $ciudad_municipio);
+        $stmt->bindParam(3, $colonia);
+        $stmt->bindParam(4, $calle);
+        $stmt->bindParam(5, $nombre);
+        $stmt->bindParam(6, $id);
+
+        // Ejecutar la sentencia
+        $stmt->execute();
+
         echo "Registro actualizado correctamente";
-    } else {
-        echo "Error al actualizar el registro: " . $conn->error;
+    } catch(PDOException $e) {
+        echo "Error al actualizar el registro: " . $e->getMessage();
     }
 
-    // Cerrar conexión
-    $conn->close();
+    // Cerrar la conexión
+    $conn = null;
 }
 ?>
