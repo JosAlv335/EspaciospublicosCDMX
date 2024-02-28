@@ -17,7 +17,7 @@ if(isset($_POST["registro"])){
     $contraseña = $_POST['contraseña'];
 
     // Consulta para verificar si el correo ya existe
-    $consultaCorreo = "SELECT correo FROM Login WHERE correo='$correo'";
+    $consultaCorreo = "SELECT correo FROM users WHERE correo='$correo'";
     $resultado = pg_query($enlace, $consultaCorreo);
 
     // Verificar si se encontraron resultados (correo ya existe)
@@ -25,7 +25,7 @@ if(isset($_POST["registro"])){
         echo "El correo electrónico ya está registrado. Por favor, utiliza otro correo.";
     } else {
         // El correo no existe, insertar los datos en la base de datos
-        $insertarDatos = "INSERT INTO Login (nombre, correo, contraseña) VALUES ('$nombre', '$correo', '$contraseña')";
+        $insertarDatos = "INSERT INTO users (nombre, correo, contraseña) VALUES ('$nombre', '$correo', '$contraseña')";
         $ejecutarInsertar = pg_query($enlace, $insertarDatos);
 
         // Verificar si se pudo insertar correctamente
@@ -44,7 +44,7 @@ if(isset($_POST["login"])){
     $contraseña = $_POST['contraseña'];
 
     // Consulta para verificar si el correo y la contraseña coinciden
-    $consultaUsuario = "SELECT * FROM Login WHERE correo='$correo' AND contraseña='$contraseña'";
+    $consultaUsuario = "SELECT * FROM users WHERE correo='$correo' AND contraseña='$contraseña'";
     $resultado = pg_query($enlace, $consultaUsuario);
 
     // Verificar si se encontró un usuario con el correo y contraseña proporcionados
