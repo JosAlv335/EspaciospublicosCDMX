@@ -1,12 +1,12 @@
 <?php
 // Verificar si el formulario ha sido enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Datos de conexión a la base de datos PostgreSQL
+    //Credenciales de Acceso a la base de datos
     $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
-    $username = "rzcndrfatvphqy"; // Cambia esto por tu nombre de usuario
-    $password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Cambia esto por tu contraseña
+    $username = "rzcndrfatvphqy"; 
+    $password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; 
     $dbname = "d2em42nge4v4em";
-    $port = "5432"; // Puerto por defecto de PostgreSQL
+    $port = "5432";
 
     // Crear cadena de conexión DSN para PostgreSQL
     $dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
