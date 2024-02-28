@@ -1,36 +1,52 @@
 <?php
 // Verificar si el formulario ha sido enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Conectar a la base de datos
+    // Datos de conexión a la base de datos PostgreSQL
     $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
     $username = "rzcndrfatvphqy"; // Cambia esto por tu nombre de usuario
     $password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Cambia esto por tu contraseña
     $dbname = "d2em42nge4v4em";
+    $port = "5432"; // Puerto por defecto de PostgreSQL
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Crear cadena de conexión DSN para PostgreSQL
+    $dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
 
-    // Verificar conexión
-    if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
-    }
+    try {
+        // Crear la conexión usando PDO
+        $conn = new PDO($dsn);
 
-    // Recuperar los datos del formulario
-    $estado = $_POST['estado'];
-    $ciudad_municipio = $_POST['ciudad_municipio'];
-    $colonia = $_POST['colonia'];
-    $calle = $_POST['calle'];
-    $nombre = $_POST['nombre'];
+        // Establecer el modo de error de PDO a excepción
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Preparar la consulta SQL
-    $sql = "INSERT INTO datos (estado, ciudad_municipio, colonia, calle, nombre) VALUES ('$estado', '$ciudad_municipio', '$colonia', '$calle', '$nombre')";
+        // Recuperar los datos del formulario
+        $estado = $_POST['estado'];
+        $ciudad_municipio = $_POST['ciudad_municipio'];
+        $colonia = $_POST['colonia'];
+        $calle = $_POST['calle'];
+        $nombre = $_POST['nombre'];
 
-    if ($conn->query($sql) === TRUE) {
+        // Preparar la consulta SQL usando sentencias preparadas
+        $sql = "INSERT INTO datos (estado, ciudad_municipio, colonia, calle, nombre) VALUES (?, ?, ?, ?, ?)";
+
+        // Preparar la sentencia
+        $stmt = $conn->prepare($sql);
+
+        // Vincular parámetros
+        $stmt->bindParam(1, $estado);
+        $stmt->bindParam(2, $ciudad_municipio);
+        $stmt->bindParam(3, $colonia);
+        $stmt->bindParam(4, $calle);
+        $stmt->bindParam(5, $nombre);
+
+        // Ejecutar la sentencia
+        $stmt->execute();
+
         echo "Registro agregado exitosamente";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    } catch(PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 
     // Cerrar la conexión
-    $conn->close();
+    $conn = null;
 }
 ?>
