@@ -6,7 +6,7 @@ $usuario = "rzcndrfatvphqy";
 $clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
 $baseDeDatos = "d2em42nge4v4em";
 $cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
-$enlace = pg_connect($cadenaConexion);
+$enlace = pg_connect(getenv("DATABASE_URL"));
 
 //Detecta si hubo algun error
 if (!$enlace) {
