@@ -30,8 +30,8 @@ if(isset($_POST["registro"])){
 
         // Verificar si se pudo insertar correctamente
         if($ejecutarInsertar) {
-            // Redirigir a index.html si se insertó correctamente
-            header("Location: index.html");
+            // Redirigir a tabla.html si se insertó correctamente
+            header("Location: tabla.html");
             exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
         } else {
             echo "Error al registrar. Por favor, intenta nuevamente.";
@@ -49,8 +49,8 @@ if(isset($_POST["login"])){
 
     // Verificar si se encontró un usuario con el correo y contraseña proporcionados
     if(pg_num_rows($resultado) == 1) {
-        // Redirigir a index.html si el inicio de sesión fue exitoso
-        header("Location: index.html");
+        // Redirigir a tabla.html si el inicio de sesión fue exitoso
+        header("Location: tabla.html");
         exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
     } else {
         echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
