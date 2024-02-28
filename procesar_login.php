@@ -5,7 +5,7 @@ $usuario = "rzcndrfatvphqy"; // Reemplaza con tu usuario de PostgreSQL
 $clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Reemplaza con tu contraseña de PostgreSQL
 $baseDeDatos = "d2em42nge4v4em";
 $cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
-$enlace = pg_connect($cadenaConexion);
+$conn = pg_connect(getenv("DATABASE_URL"));
 
 if (!$enlace) {
     die("Error al conectar: " . pg_last_error());
