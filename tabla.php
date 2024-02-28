@@ -17,7 +17,7 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Consulta SQL para obtener los datos
-    $sql = "SELECT id, estado, ciudad_municipio, colonia, calle, nombre, activo, usuario_activos FROM datos";
+    $sql = "SELECT id, estado, ciudad_municipio, colonia, calle, nombre, activo, usuarios_activos FROM datos";
 
     // Preparar la sentencia
     $stmt = $conn->prepare($sql);
@@ -34,7 +34,7 @@ try {
         echo "<tr><th>ID</th><th>Estado</th><th>Ciudad/Municipio</th><th>Colonia</th><th>Calle</th><th>Nombre</th><th>Activo</th><th>Usuarios Activos</th></tr>";
         // Obtener los resultados y mostrar en la tabla
         foreach($stmt->fetchAll() as $row) {
-            echo "<tr><td>".$row["id"]."</td><td>".$row["estado"]."</td><td>".$row["ciudad_municipio"]."</td><td>".$row["colonia"]."</td><td>".$row["calle"]."</td><td>".$row["nombre"]."</td><td>".$row["activo"]."</td><td>".$row["usuario_activos"]."</td></tr>";
+            echo "<tr><td>".$row["id"]."</td><td>".$row["estado"]."</td><td>".$row["ciudad_municipio"]."</td><td>".$row["colonia"]."</td><td>".$row["calle"]."</td><td>".$row["nombre"]."</td><td>".$row["activo"]."</td><td>".$row["usuarios_activos"]."</td></tr>";
         }
         echo "</table>";
     } else {
