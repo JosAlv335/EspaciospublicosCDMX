@@ -1,9 +1,9 @@
 <?php
-$servidor = "localhost"; // O la dirección del servidor de PostgreSQL
+$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com"; // O la dirección del servidor de PostgreSQL
 $puerto = "5432"; // Puerto por defecto de PostgreSQL
-$usuario = "root"; // Reemplaza con tu usuario de PostgreSQL
-$clave = ""; // Reemplaza con tu contraseña de PostgreSQL
-$baseDeDatos = "loginep";
+$usuario = "rzcndrfatvphqy"; // Reemplaza con tu usuario de PostgreSQL
+$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Reemplaza con tu contraseña de PostgreSQL
+$baseDeDatos = "d2em42nge4v4em";
 $cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
 $enlace = pg_connect($cadenaConexion);
 
