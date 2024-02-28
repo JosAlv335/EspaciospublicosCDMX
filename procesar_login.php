@@ -1,16 +1,20 @@
 <?php
-$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com"; // O la dirección del servidor de PostgreSQL
-$puerto = "5432"; // Puerto por defecto de PostgreSQL
-$usuario = "rzcndrfatvphqy"; // Reemplaza con tu usuario de PostgreSQL
-$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Reemplaza con tu contraseña de PostgreSQL
+//Credenciales de acceso al servidor
+$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com";
+$puerto = "5432";
+$usuario = "rzcndrfatvphqy";
+$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
 $baseDeDatos = "d2em42nge4v4em";
 $cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
+//Establecer la conexión con la base de datos
 $enlace = pg_connect($cadenaConexion);
 
+//Detecta si hubo algun error
 if (!$enlace) {
     die("Error al conectar: " . pg_last_error());
 }
 
+//Busca el correo si es que existe para un nuevo registro
 if(isset($_POST["registro"])){
     $nombre = $_POST['nombre'];
     $correo = $_POST['correo'];
