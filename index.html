@@ -26,26 +26,35 @@
         <div class="form-information">
             <div class="form-information-childs">
                 <h2>Crear una Cuenta</h2>
+                <!--<div class="icons">
+                    <i class='bx bxl-google'></i>
+                    <i class='bx bxl-github'></i>
+                    <i class='bx bxl-linkedin-square'></i>
+                </div>--> 
                 <p>o usa tu e-mail para registrarte</p>
-                <form action="inicio.php" name="loginep" method="post" class="form">
+                <form id="registerForm" class="form">
                     <label>
                         <i class='bx bx-user'></i>
-                        <input type="text" name="nombre" placeholder="Nombre Completo">
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo">
                     </label>
                     <label>
                         <i class='bx bx-envelope'></i>
-                        <input type="email" name="correo" placeholder="Correo Electrónico">
+                        <input type="email" name="correo" id="correo" placeholder="Correo Electrónico">
                     </label>
                     <label>
                         <i class='bx bx-lock-alt'></i>
-                        <input type="password" name="contraseña" placeholder="Contraseña">
+                        <input type="password" name="contraseña" id="contraseña" placeholder="Contraseña">
                     </label>
-                    <input type="submit" name="registro">
+                    <input type="button" id="registroButton" value="Registrar">
                     <input type="reset">
                 </form>
             </div>
         </div>
     </div>
+
+
+
+
     <div class="container-form login hide">
         <div class="information">
             <div class="info-childs">
@@ -64,20 +73,21 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>
                 <p>o iniciar sesión con una cuenta</p>
-                <form action="procesar_login.php" method="post" class="form">
+                <form id="loginForm" class="form">
                     <label>
                         <i class='bx bx-envelope'></i>
-                        <input type="email" name="correo" placeholder="Correo Electrónico">
+                        <input type="email" name="correo" id="loginCorreo" placeholder="Correo Electrónico">
                     </label>
                     <label>
                         <i class='bx bx-lock-alt'></i>
-                        <input type="password" name="contraseña" placeholder="Contraseña">
+                        <input type="password" name="contraseña" id="loginContraseña" placeholder="Contraseña">
                     </label>
-                    <input type="submit" name="login" value="Iniciar Sesión">
+                    <input type="button" id="loginButton" value="Iniciar Sesión">
                 </form>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 

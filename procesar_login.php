@@ -1,50 +1,59 @@
 <?php
-// Datos de conexión a la base de datos
-$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com";
-$usuario = "rzcndrfatvphqy";
-$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
-$baseDeDatos = "d2em42nge4v4em";
+$servidor = "localhost"; // O la dirección del servidor de PostgreSQL
+$puerto = "5432"; // Puerto por defecto de PostgreSQL
+$usuario = "root"; // Reemplaza con tu usuario de PostgreSQL
+$clave = ""; // Reemplaza con tu contraseña de PostgreSQL
+$baseDeDatos = "loginep";
+$cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
+$enlace = pg_connect($cadenaConexion);
 
-// Cadena de conexión
-$dsn = "pgsql:host=$servidor;dbname=$baseDeDatos";
-
-// Intentar establecer la conexión con la base de datos
-try {
-    $enlace = new PDO($dsn, $usuario, $clave);
-    $enlace->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error al conectar: " . $e->getMessage());
+if (!$enlace) {
+    die("Error al conectar: " . pg_last_error());
 }
 
-if (isset($_POST["login"])) {
+if(isset($_POST["registro"])){
+    $nombre = $_POST['nombre'];
     $correo = $_POST['correo'];
     $contraseña = $_POST['contraseña'];
 
-    // Consulta SQL para obtener el usuario por correo electrónico
-    // Uso de consultas preparadas para evitar inyección SQL
-    $consultaUsuario = $enlace->prepare("SELECT * FROM Login WHERE correo = :correo");
-    $consultaUsuario->bindParam(':correo', $correo, PDO::PARAM_STR);
-    $consultaUsuario->execute();
+    // Consulta para verificar si el correo ya existe
+    $consultaCorreo = "SELECT correo FROM Login WHERE correo='$correo'";
+    $resultado = pg_query($enlace, $consultaCorreo);
 
-    if ($consultaUsuario->rowCount() > 0) {
-        // Usuario encontrado, verificar la contraseña
-        $usuario = $consultaUsuario->fetch(PDO::FETCH_ASSOC);
-        echo "Contraseña almacenada en la base de datos: " . $usuario['contraseña'] . "<br>";
-
-        // Comparar contraseñas
-        if (password_verify($contraseña, $usuario['contraseña'])) {
-            // Contraseña correcta
-            session_start();
-            $_SESSION['usuario'] = $usuario['nombre']; // Guardar información del usuario en la sesión
-            header("Location: tabla.php"); // Redirigir a la página de inicio
-            exit;
-        } else {
-            // Contraseña incorrecta
-            echo "Contraseña incorrecta";
-        }
+    // Verificar si se encontraron resultados (correo ya existe)
+    if(pg_num_rows($resultado) > 0) {
+        echo "El correo electrónico ya está registrado. Por favor, utiliza otro correo.";
     } else {
-        // Usuario no encontrado
-        echo "Correo electrónico no registrado";
+        // El correo no existe, insertar los datos en la base de datos
+        $insertarDatos = "INSERT INTO Login (nombre, correo, contraseña) VALUES ('$nombre', '$correo', '$contraseña')";
+        $ejecutarInsertar = pg_query($enlace, $insertarDatos);
+
+        // Verificar si se pudo insertar correctamente
+        if($ejecutarInsertar) {
+            // Redirigir a tabla.html si se insertó correctamente
+            header("Location: tabla.html");
+            exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
+        } else {
+            echo "Error al registrar. Por favor, intenta nuevamente.";
+        }
+    }
+}
+
+if(isset($_POST["login"])){
+    $correo = $_POST['correo'];
+    $contraseña = $_POST['contraseña'];
+
+    // Consulta para verificar si el correo y la contraseña coinciden
+    $consultaUsuario = "SELECT * FROM Login WHERE correo='$correo' AND contraseña='$contraseña'";
+    $resultado = pg_query($enlace, $consultaUsuario);
+
+    // Verificar si se encontró un usuario con el correo y contraseña proporcionados
+    if(pg_num_rows($resultado) == 1) {
+        // Redirigir a tabla.html si el inicio de sesión fue exitoso
+        header("Location: tabla.html");
+        exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
+    } else {
+        echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
     }
 }
 ?>

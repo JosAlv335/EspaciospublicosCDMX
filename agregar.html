@@ -11,7 +11,9 @@
         <h1>Agregar elemento</h1>
     </header>
     <main>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+        <div id="mensaje"></div> <!-- Para mostrar mensajes de éxito o error -->
+
+        <form id="addForm">
             <div class="form-group">
                 <label for="estado">Estado:</label>
                 <input type="text" id="estado" name="estado" required>
@@ -33,48 +35,33 @@
                 <input type="text" id="nombre" name="nombre" required>
             </div>
             <div class="button-group">
-                <!-- Utiliza un enlace para redirigir -->
-                <a href="tabla.php" class="cancel-button">Regresar</a>
+                <button type="button" id="regresarTabla" class="cancel-button">Regresar</button>
                 <button type="submit" class="add-button" name="agregar">Agregar</button>
             </div>
         </form>
     </main>
+    
+    <script>
+        document.getElementById("addForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar el envío del formulario por defecto
+
+            var formData = new FormData(this); // Obtener los datos del formulario
+
+            var xhr = new XMLHttpRequest(); // Crear un objeto XMLHttpRequest
+            xhr.open("POST", "procesar_agregar.php", true); // Establecer la solicitud POST a procesar_agregar.php
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("mensaje").innerHTML = xhr.responseText; // Mostrar la respuesta del servidor en el elemento "mensaje"
+                }
+            };
+
+            xhr.send(formData); // Enviar los datos del formulario al servidor
+        });
+
+        document.getElementById("regresarTabla").addEventListener("click", function() {
+            window.location.href = "tabla.html"; // Redirigir a tabla.html
+        });
+    </script>
 </body>
 </html>
-
-<?php
-// Verificar si el formulario ha sido enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Conectar a la base de datos
-    $servername = "localhost";
-    $username = "root"; // Cambia esto por tu nombre de usuario
-    $password = ""; // Cambia esto por tu contraseña
-    $dbname = "parques";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Verificar conexión
-    if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
-    }
-
-    // Recuperar los datos del formulario
-    $estado = $_POST['estado'];
-    $ciudad_municipio = $_POST['ciudad_municipio'];
-    $colonia = $_POST['colonia'];
-    $calle = $_POST['calle'];
-    $nombre = $_POST['nombre'];
-
-    // Preparar la consulta SQL
-    $sql = "INSERT INTO datos (estado, ciudad_municipio, colonia, calle, nombre) VALUES ('$estado', '$ciudad_municipio', '$colonia', '$calle', '$nombre')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Registro agregado exitosamente');</script>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    // Cerrar la conexión
-    $conn->close();
-}
-?>
