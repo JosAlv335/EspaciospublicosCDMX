@@ -32,10 +32,10 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>--> 
                 <p>o usa tu e-mail para registrarte</p>
-                <form action="index.php" name="login" method="post" class="form">
+                <form action="procesar_login.php" name="login" method="post" class="form">
                     <label>
                         <i class='bx bx-user'></i>
-                        <input type="text" name="nombre" placeholder="Nombre Completo">
+                        <input type = "text" name="nombre" placeholder="Nombre Completo">
                     </label>
                     <label>
                         <i class='bx bx-envelope'></i>
@@ -45,8 +45,8 @@
                         <i class='bx bx-lock-alt'></i>
                         <input type="password" name="contraseña" placeholder="Contraseña">
                     </label>
-                    <input type="submit" name="registro">
-                    <input type="reset">
+                    <button type="submit" name="login">Registrarme</button>
+                    <button type="reset" name="reset">Reestablecer</button>
                 </form>
             </div>
         </div>
@@ -73,7 +73,7 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>
                 <p>o iniciar sesión con una cuenta</p>
-                <form action="index.php" method="post" class="form">
+                <form action="procesar_login.php" method="post" class="form">
                     <label>
                         <i class='bx bx-envelope'></i>
                         <input type="email" name="correo" placeholder="Correo Electrónico">

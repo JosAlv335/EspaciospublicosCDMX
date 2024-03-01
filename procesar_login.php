@@ -1,10 +1,4 @@
 <?php
-$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com"; // Ejemplo, usa tu servidor real
-$puerto = "5432"; // Puerto por defecto de PostgreSQL
-$baseDeDatos = "d2em42nge4v4em"; // Nombre de tu base de datos
-$usuario = "rzcndrfatvphqy"; // Cambia esto por tu usuario
-$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Cambia esto por tu contraseña real
-$dsn = "pgsql:host=$servidor;port=$puerto;dbname=$baseDeDatos;user=$usuario;password=$clave";
 
 try {
     $enlace = new PDO($dsn);
