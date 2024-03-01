@@ -35,7 +35,7 @@ if (isset($_POST["registro"])) {
         $resultado = $stmt->execute(['nombre' => $nombre, 'correo' => $correo, 'contraseña' => $contraseña]);
 
         if ($resultado) {
-            header("Location: tabla.php");
+            header("Location: index.html");
             exit();
         } else {
             echo "Error al registrar. Por favor, intenta nuevamente.";
@@ -53,7 +53,7 @@ if (isset($_POST["login"])) {
     $stmt->execute(['correo' => $correo, 'contraseña' => $contraseña]);
 
     if ($stmt->rowCount() == 1) {
-        header("Location: tabla.html");
+        header("Location: index.html");
         exit();
     } else {
         echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
