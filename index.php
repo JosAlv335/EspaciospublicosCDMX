@@ -1,18 +1,16 @@
 <?php
-/*
-Credenciales de acceso al servidor
-*/
-$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com"; // Ajusta a tu servidor
-$puerto = "5432";
-$baseDeDatos = "d2em42nge4v4em"; // Ajusta al nombre de tu base de datos
-$usuario = "rzcndrfatvphqy"; // Ajusta a tu usuario
-$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Ajusta a tu contraseña
-$dsn = "pgsql:host=$servidor;port=$puerto;dbname=$baseDeDatos;user=$usuario;password=$clave";
-
 //Intento de conexión al servidor
 try {
-    $enlace = new PDO($dsn);
-    $enlace->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db = parse_url(getenv("DATABASE_URL"));
+
+        $conn = new PDO("pgsql:" . sprintf(
+            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+            $db["host"],
+            $db["port"],
+            $db["user"],
+            $db["pass"],
+            ltrim($db["path"], "/")
+        ));
 } catch (PDOException $e) {
     die("Error al conectar: " . $e->getMessage());
 }
