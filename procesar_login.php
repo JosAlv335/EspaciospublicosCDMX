@@ -1,11 +1,4 @@
 <?php
-//Credenciales de acceso al servidor
-$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com";
-$puerto = "5432";
-$usuario = "rzcndrfatvphqy";
-$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
-$baseDeDatos = "d2em42nge4v4em";
-$cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
 $enlace = pg_connect(getenv("DATABASE_URL"));
 
 //Detecta si hubo algun error
@@ -34,10 +27,11 @@ if(isset($_POST["registro"])){
         // Verificar si se pudo insertar correctamente
         if($ejecutarInsertar) {
             // Redirigir a index.html si se insertó correctamente
+            echo "<p style='color: green;'>¡Proceso completado exitosamente!</p>";
             header("Location: index.html");
             exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
         } else {
-            echo "Error al registrar. Por favor, intenta nuevamente.";
+            echo "<p style='color: red;'>¡Error! El proceso ha fallado.</p>";
         }
     }
 }
@@ -53,7 +47,7 @@ if(isset($_POST["login"])){
     // Verificar si se encontró un usuario con el correo y contraseña proporcionados
     if(pg_num_rows($resultado) == 1) {
         // Redirigir a index.html si el inicio de sesión fue exitoso
-        header("Location: index.html");
+        header("Location: tabla.html");
         exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
     } else {
         echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
