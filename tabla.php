@@ -1,17 +1,26 @@
 <?php
 // Datos de conexión a la base de datos PostgreSQL
 $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
-$username = "rzcndrfatvphqy"; // Cambia esto por tu nombre de usuario
-$password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Cambia esto por tu contraseña
+$username = "rzcndrfatvphqy";
+$password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
 $dbname = "d2em42nge4v4em";
-$port = "5432"; // Puerto por defecto de PostgreSQL
+$port = "5432";
 
 // Crear cadena de conexión DSN para PostgreSQL
 $dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
 
 try {
-    // Crear la conexión usando PDO
-    $conn = new PDO($dsn);
+    $db = parse_url(getenv("DATABASE_URL"));
+
+    $conn = new PDO("pgsql:" . sprintf(
+        "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+        $db["host"],
+        $db["port"],
+        $db["user"],
+        $db["pass"],
+        ltrim($db["path"], "/")
+    ));
+
 
     // Establecer el modo de error de PDO a excepción
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

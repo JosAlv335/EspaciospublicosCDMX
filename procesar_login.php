@@ -1,45 +1,62 @@
 <?php
+//Credenciales de acceso al servidor
+$servidor = "ec2-52-54-200-216.compute-1.amazonaws.com";
+$puerto = "5432";
+$usuario = "rzcndrfatvphqy";
+$clave = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
+$baseDeDatos = "d2em42nge4v4em";
+$cadenaConexion = "host=$servidor port=$puerto dbname=$baseDeDatos user=$usuario password=$clave";
+$enlace = pg_connect(getenv("DATABASE_URL"));
 
-try {
-    $enlace = new PDO($dsn);
-    $enlace->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error al conectar: " . $e->getMessage());
+//Detecta si hubo algun error
+if (!$enlace) {
+    die("Error al conectar: " . pg_last_error());
 }
 
-if (isset($_POST["login"])) {
+//Busca el correo si es que existe para un nuevo registro
+if(isset($_POST["registro"])){
+    $nombre = $_POST['nombre'];
     $correo = $_POST['correo'];
     $contraseña = $_POST['contraseña'];
 
-    // Consulta SQL para obtener el usuario por correo electrónico
-    $consultaUsuario = "SELECT * FROM users WHERE correo = :correo";
-    $stmt = $enlace->prepare($consultaUsuario);
-    $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
-    $stmt->execute();
+    // Consulta para verificar si el correo ya existe
+    $consultaCorreo = "SELECT correo FROM users WHERE correo='$correo'";
+    $resultado = pg_query($enlace, $consultaCorreo);
 
-    if ($stmt->rowCount() == 1) {
-        // Usuario encontrado, verificar la contraseña
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "Contraseña almacenada en la base de datos: " . $usuario['contraseña'] . "<br>";
-
-        // Imprimir la longitud de ambas contraseñas para verificar si son iguales
-        echo "Longitud de la contraseña almacenada: " . strlen($usuario['contraseña']) . "<br>";
-        echo "Longitud de la contraseña proporcionada: " . strlen($contraseña) . "<br>";
-
-        // Comparar contraseñas
-        if (password_verify($contraseña, $usuario['contraseña'])) {
-            // Contraseña correcta
-            session_start();
-            $_SESSION['usuario'] = $usuario['nombre']; // Guardar información del usuario en la sesión
-            header("Location: tabla.html"); // Redirigir a la página de inicio
-            exit();
-        } else {
-            // Contraseña incorrecta
-            echo "Contraseña incorrecta";
-        }
+    // Verificar si se encontraron resultados (correo ya existe)
+    if(pg_num_rows($resultado) > 0) {
+        echo "El correo electrónico ya está registrado. Por favor, utiliza otro correo.";
     } else {
-        // Usuario no encontrado
-        echo "Correo electrónico no registrado";
+        // El correo no existe, insertar los datos en la base de datos
+        $insertarDatos = "INSERT INTO users (nombre, correo, contraseña) VALUES ('$nombre', '$correo', '$contraseña')";
+        $ejecutarInsertar = pg_query($enlace, $insertarDatos);
+
+        // Verificar si se pudo insertar correctamente
+        if($ejecutarInsertar) {
+            // Redirigir a index.html si se insertó correctamente
+            header("Location: index.html");
+            exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
+        } else {
+            echo "Error al registrar. Por favor, intenta nuevamente.";
+        }
+    }
+}
+
+if(isset($_POST["login"])){
+    $correo = $_POST['correo'];
+    $contraseña = $_POST['contraseña'];
+
+    // Consulta para verificar si el correo y la contraseña coinciden
+    $consultaUsuario = "SELECT * FROM users WHERE correo='$correo' AND contraseña='$contraseña'";
+    $resultado = pg_query($enlace, $consultaUsuario);
+
+    // Verificar si se encontró un usuario con el correo y contraseña proporcionados
+    if(pg_num_rows($resultado) == 1) {
+        // Redirigir a index.html si el inicio de sesión fue exitoso
+        header("Location: index.html");
+        exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
+    } else {
+        echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
     }
 }
 ?>
