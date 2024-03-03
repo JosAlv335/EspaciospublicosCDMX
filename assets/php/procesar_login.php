@@ -28,7 +28,7 @@ if(isset($_POST["registro"])){
         if($ejecutarInsertar) {
             // Redirigir a index.html si se insertó correctamente
             echo "<p style='color: green;'>¡Proceso completado exitosamente!</p>";
-            header("Location: index.html");
+            header("Location: ../../paginas/index.html");
             exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
         } else {
             echo "<p style='color: red;'>¡Error! El proceso ha fallado.</p>";
@@ -47,7 +47,7 @@ if(isset($_POST["login"])){
     // Verificar si se encontró un usuario con el correo y contraseña proporcionados
     if(pg_num_rows($resultado) == 1) {
         // Redirigir a index.html si el inicio de sesión fue exitoso
-        header("Location: tabla.html");
+        header("Location: ../../paginas/tabla.html");
         exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
     } else {
         echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
