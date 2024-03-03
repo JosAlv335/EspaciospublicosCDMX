@@ -14,30 +14,42 @@
         <form id="form-busqueda">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="input" id="nombre" name="nombre" required>
             </div>
             <div class="button-group">
                 <a href="../paginas/tabla.html" class="cancel-button">Regresar</a>
-                <button type="submit" class="search-button">Buscar</button>
+                <button type="input" class="search-button">Buscar</button>
             </div>
         </form>
         <div id="resultado-busqueda"></div>
     </main>
     <script>
-        document.getElementById('form-busqueda').addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de forma convencional
 
-            var nombre = document.getElementById('nombre').value;
+        document.getElementById('nombre').addEventListener("input",function() {
+
+            var busqueda = this.value.trim();
+            if(busqueda.length > 0){
+                buscar(busqueda);
+            }else{
+                document.getElementById("resultado-busqueda").innerHTML = ''; //No muestra nada si la búsqueda está vacía
+            }
+
+        });
+
+        function buscar(busqueda){
+
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '../assets/php/buscar.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    document.getElementById('resultado-busqueda').innerHTML = xhr.responseText;
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("resultado-busqueda").innerHTML = xhr.responseText;
                 }
             };
-            xhr.send('nombre=' + encodeURIComponent(nombre));
-        });
+            xhr.open("GET", "../assets/php/buscar.php?nombre=" + encodeURIComponent(busqueda), true);
+            xhr.send();
+
+        }
+
+
     </script>
 </body>
 </html>

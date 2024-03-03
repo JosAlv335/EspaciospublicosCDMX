@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Datos de conexión a la base de datos PostgreSQL
     $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
     $username = "rzcndrfatvphqy"; // Cambiar por tu nombre de usuario
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Recibir el nombre de la búsqueda y eliminar espacios
-        $nombre_busqueda = str_replace(' ', '', $_POST['nombre']);
+        $nombre_busqueda = str_replace(' ', '', $_GET['nombre']);
 
         // Preparar la consulta SQL para buscar registros que contengan el nombre (sin importar mayúsculas o minúsculas ni espacios)
         $sql = "SELECT * FROM datos WHERE REPLACE(LOWER(nombre), ' ', '') LIKE REPLACE(LOWER(?), ' ', '')";
@@ -52,5 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Cerrar la conexión
     $conn = null;
+}
+else{
+    echo "<h2>No matches found...</h2>";
 }
 ?>
