@@ -34,7 +34,7 @@
             var nombre = document.getElementById('campoBusqueda').value;
             var xhr = new XMLHttpRequest();
             console.log('Hola');
-            xhr.open('GET', '/assets/php/buscar.php' + encodeURIComponent(nombre),true);
+            xhr.open('GET', '/assets/php/buscar.php?nombre=' + encodeURIComponent(nombre),true);
             xhr.setRequestHeader('Content-Type','application/x-www-formurlencoded');
             xhr.onreadystatechange = function(){
                 if(xhr.readyState === 4 && xhr.status ===200){
