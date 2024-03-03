@@ -27,7 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Recibir el nombre de la búsqueda y eliminar espacios
-        $nombre_busqueda = str_replace(' ', '', $_GET['nombre']);
+        //$nombre_busqueda = str_replace(' ', '', $_GET['nombre']);
+        $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] :"";
+
+        //Sanitiza la entrada para evitar inyecciones sql
+        $nombre_busqueda = htmlspecialchars($nombre_busqueda);
 
         // Preparar la consulta SQL para buscar registros que contengan el nombre (sin importar mayúsculas o minúsculas ni espacios)
         $sql = "SELECT * FROM datos WHERE REPLACE(LOWER(nombre), ' ', '') LIKE REPLACE(LOWER(?), ' ', '')";

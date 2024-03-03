@@ -11,6 +11,8 @@
         <h1>Buscar</h1>
     </header>
     <main>
+        <input type="text" id="campoBusqueda" placeholder="Introduce un nombre">
+
         <form id="form-busqueda">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
@@ -25,7 +27,7 @@
     </main>
     <script>
 
-        document.getElementById('nombre').addEventListener("input",function() {
+        document.getElementById('campoBusqueda').addEventListener('input',function() {
 
             var busqueda = this.value.trim();
             if(busqueda.length > 0){
@@ -39,12 +41,12 @@
         function buscar(busqueda){
 
             var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("resultado-busqueda").innerHTML = xhr.responseText;
-                }
-            };
             xhr.open("GET", "../assets/php/buscar.php?nombre=" + encodeURIComponent(busqueda), true);
+            xhr.onload() = function() {
+                if(xhr.status === 200){
+                    document.getElementById('resultado-busqueda').innerHTML = xhr.responseText;
+                }
+            }
             xhr.send();
 
         }
