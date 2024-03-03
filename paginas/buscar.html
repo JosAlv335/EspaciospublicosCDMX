@@ -14,7 +14,7 @@
         <form id="form-busqueda">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="input" id="nombre" name="nombre" required>
             </div>
             <div class="button-group">
                 <a href="../index.html" class="cancel-button">Regresar</a>
@@ -28,7 +28,7 @@
         document.getElementById('form-busqueda').addEventListener("input",function() {
 
             var busqueda = this.value.trim();
-            if(busqueda.lenght > 0){
+            if(busqueda.length > 0){
                 buscar(busqueda);
             }else{
                 document.getElementById("resultado-busqueda").innerHTML = ''; //No muestra nada si la búsqueda está vacía
