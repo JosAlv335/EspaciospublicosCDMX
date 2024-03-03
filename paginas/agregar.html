@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar elemento</title>
-    <link rel="stylesheet" href="agregar.css">
+    <link rel="stylesheet" href="../assets/css/agregar.css">
 </head>
 <body>
     <header>
@@ -48,7 +48,7 @@
             var formData = new FormData(this); // Obtener los datos del formulario
 
             var xhr = new XMLHttpRequest(); // Crear un objeto XMLHttpRequest
-            xhr.open("POST", "procesar_agregar.php", true); // Establecer la solicitud POST a procesar_agregar.php
+            xhr.open("POST", "../assets/php/procesar_agregar.php", true); // Establecer la solicitud POST a procesar_agregar.php
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -60,7 +60,7 @@
         });
 
         document.getElementById("regresarTabla").addEventListener("click", function() {
-            window.location.href = "index.html"; // Redirigir a index.html
+            window.location.href = "../index.html"; // Redirigir a index.html
         });
     </script>
 </body>
