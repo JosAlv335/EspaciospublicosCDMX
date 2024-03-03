@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar</title>
-    <link rel="stylesheet" href="buscar.css">
+    <link rel="stylesheet" href="../assets/css/buscar.css">
 </head>
 <body>
     <header>
@@ -18,7 +18,7 @@
                 <input type="text" id="nombre" name="nombre" required>
             </div>
             <div class="button-group">
-                <a href="index.html" class="cancel-button">Regresar</a>
+                <a href="../index.html" class="cancel-button">Regresar</a>
                 <button type="submit" class="search-button">Buscar</button>
             </div>
         </form>
@@ -29,7 +29,7 @@
 
             var nombre = document.getElementById('nombre').value;
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'buscar.php', true);
+            xhr.open('POST', '../assets/php/buscar.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
