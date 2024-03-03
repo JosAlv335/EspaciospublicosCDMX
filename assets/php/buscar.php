@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         // Preparar la consulta SQL para buscar registros que contengan el nombre (sin importar mayúsculas o minúsculas ni espacios)
         //$sql = "SELECT * FROM datos WHERE REPLACE(LOWER(nombre), ' ', '') LIKE REPLACE(LOWER(?), ' ', '')";
-        $sql = "SELECT * FROM datos WHERE nombre LIKE $nombre_busqueda%";
+        $sql = "SELECT * FROM datos WHERE nombre LIKE '%$nombre_busqueda%'";
         $stmt = $conn->prepare($sql);
         //$stmt->bindValue(1, "%$nombre_busqueda%", PDO::PARAM_STR);
         $stmt->execute();
