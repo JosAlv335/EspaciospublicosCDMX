@@ -10,7 +10,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url(img/background.jpg);
+    background-image: url(../img/background.jpg);
     background-size: cover;
 }
 
@@ -166,6 +166,7 @@ display: inline-block;
 font-size: 16px;
 transition: background-color 0.5s ease; /* Transición suave para el color de fondo */
 border-radius: 30px; /* Esto aplica bordes redondeados al botón */
+cursor: pointer;
 }
 
 .form button:hover{

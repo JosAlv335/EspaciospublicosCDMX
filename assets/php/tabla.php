@@ -39,7 +39,7 @@ try {
 
     // Verificar si hay filas (registros) devueltas
     if($stmt->rowCount() > 0) {
-        echo "<table>";
+        echo '<table class=mainTable>';
         echo "<tr><th>ID</th><th>Estado</th><th>Ciudad/Municipio</th><th>Colonia</th><th>Calle</th><th>Nombre</th><th>Activo</th><th>Usuarios Activos</th></tr>";
         // Obtener los resultados y mostrar en la tabla
         foreach($stmt->fetchAll() as $row) {
