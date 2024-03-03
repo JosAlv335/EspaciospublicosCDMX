@@ -29,28 +29,21 @@
 
         document.getElementById('campoBusqueda').addEventListener('input',function() {
 
-            var busqueda = this.value.trim();
-            if(busqueda.length > 0){
-                buscar(busqueda);
-            }else{
-                document.getElementById("resultado-busqueda").innerHTML = ''; //No muestra nada si la búsqueda está vacía
-            }
+            event.preventDefault();//Evita que se envie de forma convencional o vacia
+
+            var nombre = document.getElementById('campoBusqueda').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '../assets/php/buscar.php',true);
+            xhr.setRequestHeader('Content-Type','application/x-www-formuriencoded');
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4 && xhr.status ===200){
+                    document.getElementById('Resultado-busqueda').innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.send('nombre=' + encodeURIComponent(nombre));
 
         });
-
-        function buscar(busqueda){
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "../assets/php/buscar.php?nombre=" + encodeURIComponent(busqueda), true);
-            xhr.onload() = function() {
-                if(xhr.status === 200){
-                    document.getElementById('resultado-busqueda').innerHTML = xhr.responseText;
-                }
-            }
-            xhr.send();
-
-        }
-
 
     </script>
 </body>
