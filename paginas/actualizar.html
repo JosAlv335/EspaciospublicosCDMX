@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualizar</title>
-    <link rel="stylesheet" href="actualizar.css">
+    <link rel="stylesheet" href="../assets/css/actualizar.css">
 </head>
 <body>
     <header>
@@ -64,78 +64,7 @@
         });
 
         document.getElementById("regresarTabla").addEventListener("click", function() {
-            window.location.href = "index.html"; // Redirigir a index.html
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizar</title>
-    <link rel="stylesheet" href="actualizar.css">
-</head>
-<body>
-    <header>
-        <h1>Actualizar</h1>
-    </header>
-    <main>
-        <div id="mensaje"></div> <!-- Para mostrar mensajes de éxito o error -->
-
-        <form id="updateForm">
-            <div class="form-group">
-                <label for="id">ID:</label>
-                <input type="text" id="id" name="id" required>
-            </div>
-            <div class="form-group">
-                <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado" required>
-            </div>
-            <div class="form-group">
-                <label for="ciudad_municipio">Ciudad/Municipio:</label>
-                <input type="text" id="ciudad_municipio" name="ciudad_municipio" required>
-            </div>
-            <div class="form-group">
-                <label for="colonia">Colonia:</label>
-                <input type="text" id="colonia" name="colonia" required>
-            </div>
-            <div class="form-group">
-                <label for="calle">Calle:</label>
-                <input type="text" id="calle" name="calle" required>
-            </div>
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            <div class="button-group">
-                <button type="button" id="regresarTabla" class="cancel-button">Regresar</button>
-                <button type="submit" class="update-button">Actualizar</button>
-            </div>
-        </form>
-    </main>
-    
-    <script>
-        document.getElementById("updateForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Evitar el envío del formulario por defecto
-
-            var formData = new FormData(this); // Obtener los datos del formulario
-
-            var xhr = new XMLHttpRequest(); // Crear un objeto XMLHttpRequest
-            xhr.open("POST", "procesar_actualizar.php", true); // Establecer la solicitud POST a procesar_actualizar.php
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("mensaje").innerHTML = xhr.responseText; // Mostrar la respuesta del servidor en el elemento "mensaje"
-                }
-            };
-
-            xhr.send(formData); // Enviar los datos del formulario al servidor
-        });
-
-        document.getElementById("regresarTabla").addEventListener("click", function() {
-            window.location.href = "tabla.html"; // Redirigir a tabla.html
+            window.location.href = "../../index.html"; // Redirigir a index.html
         });
     </script>
 </body>
