@@ -31,7 +31,7 @@
             if(busqueda.lenght > 0){
                 buscar(busqueda);
             }else{
-                document.getElementById("resultado-busqueda");
+                document.getElementById("resultado-busqueda").innerHTML = ''; //No muestra nada si la búsqueda está vacía
             }
 
         });
@@ -41,7 +41,7 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("resultados").innerHTML = xhr.responseText;
+                    document.getElementById("resultado-busqueda").innerHTML = xhr.responseText;
                 }
             };
             xhr.open("GET", "buscar.php?nombre=" + encodeURIComponent(busqueda), true);
