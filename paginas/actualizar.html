@@ -52,7 +52,7 @@
             var formData = new FormData(this); // Obtener los datos del formulario
 
             var xhr = new XMLHttpRequest(); // Crear un objeto XMLHttpRequest
-            xhr.open("POST", "procesar_actualizar.php", true); // Establecer la solicitud POST a procesar_actualizar.php
+            xhr.open("POST", "../assets/php/procesar_actualizar.php", true); // Establecer la solicitud POST a procesar_actualizar.php
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
