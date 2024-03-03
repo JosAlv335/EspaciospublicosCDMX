@@ -53,4 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Cerrar la conexión
     $conn = null;
 }
+else{
+    echo "<div>No matches found...</div>";
+}
 ?>

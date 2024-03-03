@@ -24,20 +24,32 @@
         <div id="resultado-busqueda"></div>
     </main>
     <script>
-        document.getElementById('form-busqueda').addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de forma convencional
 
-            var nombre = document.getElementById('nombre').value;
+        document.getElementById('form-busqueda').addEventListener("input",function() {
+
+            var busqueda = this.value.trim();
+            if(busqueda.lenght > 0){
+                buscar(busqueda);
+            }else{
+                document.getElementById("resultado-busqueda");
+            }
+
+        });
+
+        function buscar(busqueda){
+
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '../assets/php/buscar.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    document.getElementById('resultado-busqueda').innerHTML = xhr.responseText;
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("resultados").innerHTML = xhr.responseText;
                 }
             };
-            xhr.send('nombre=' + encodeURIComponent(nombre));
-        });
+            xhr.open("GET", "buscar.php?nombre=" + encodeURIComponent(busqueda), true);
+            xhr.send();
+
+        }
+
+
     </script>
 </body>
 </html>
