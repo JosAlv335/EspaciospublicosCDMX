@@ -44,7 +44,7 @@
                     document.getElementById("resultado-busqueda").innerHTML = xhr.responseText;
                 }
             };
-            xhr.open("GET", "buscar.php?nombre=" + encodeURIComponent(busqueda), true);
+            xhr.open("GET", "../assets/php/buscar.php?nombre=" + encodeURIComponent(busqueda), true);
             xhr.send();
 
         }
