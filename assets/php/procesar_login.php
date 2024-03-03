@@ -47,7 +47,7 @@ if(isset($_POST["login"])){
     // Verificar si se encontró un usuario con el correo y contraseña proporcionados
     if(pg_num_rows($resultado) == 1) {
         // Redirigir a index.html si el inicio de sesión fue exitoso
-        header("Location:/paginas/tabla.html");
+        header("Location: /paginas/tabla.html");
         exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
     } else {
         echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
