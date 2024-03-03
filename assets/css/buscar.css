@@ -33,7 +33,9 @@ main {
 
 .button-group {
     display: flex;
-    justify-content: space-between;
+    margin: auto;
+    width: 12%;
+    padding: 10px;
 }
 
 .cancel-button {
@@ -92,4 +94,9 @@ table tr:nth-child(even) {
 .button-group button.regresar {
     background-color: red;
     color: white;
+}
+
+.contenedor-tabla {
+    height: 300px;
+    overflow: auto;
 }
