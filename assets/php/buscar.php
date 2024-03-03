@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Datos de conexión a la base de datos PostgreSQL
     $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
     $username = "rzcndrfatvphqy"; // Cambiar por tu nombre de usuario
@@ -54,6 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = null;
 }
 else{
-    echo "<div>No matches found...</div>";
+    echo "<h2>No matches found...</h2>";
 }
 ?>
