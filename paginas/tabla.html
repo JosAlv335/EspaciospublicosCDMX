@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parques y Espacios Públicos Deportivos</title>
-    <link rel="stylesheet" href="tabla.css">
+    <link rel="stylesheet" href="../assets/css/tabla.css">
 </head>
 <body>
     <header>
@@ -24,7 +24,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             // Realizar una solicitud AJAX para obtener la tabla de parques
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'tabla.php', true);
+            xhr.open('GET', '../assets/php/tabla.php', true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     document.getElementById('tabla-parques').innerHTML = xhr.responseText;
