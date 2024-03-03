@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
 
     try {
+        //Establecer conexión encriptada
         $db = parse_url(getenv("DATABASE_URL"));
 
         $conn = new PDO("pgsql:" . sprintf(
