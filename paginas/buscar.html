@@ -1,86 +1,91 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar</title>
-    <link rel="stylesheet" href="../assets/css/buscar.css">
+    <title>Búsqueda de Parques</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Buscar</h1>
-    </header>
-    <main>
-        
-        
+    <h1>Búsqueda de Parques</h1>
 
-        <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="campoBusqueda" name="nombre">
-        </div>
-            
-        <div class="contenedor-tabla">
-            <div id="resultado-busqueda"></div>
-        </div>
+    <!-- Cuadro de texto para ingresar el carácter de búsqueda -->
+    <input type="text" id="busqueda" placeholder="Ingresa un carácter">
 
-        <div class="button-group">
-            <a href="../paginas/tabla.html" class="cancel-button">Regresar</a>
-        </div>
-    </main>
+    <!-- Contenedor para mostrar los resultados de la búsqueda -->
+    <div id="resultados">
+        <table id="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Ciudad</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
     <script>
-        const SUPABASE_REST_URL = process.env.REST_URL;
-const SUPABASE_REST_KEY = process.env.REST_PUBLIC_KEY;
+        // Función para hacer una solicitud GET a la API de Supabase y buscar resultados en la tabla "parques"
+        async function buscarParques(caracter) {
+            try {
+                // Realizar la solicitud GET a la API de Supabase
+                const response = await fetch(`https://zrwtmvescjmkdenhdaqh.supabase.co/rest/v1/parques?nombre=ilike.${caracter}%`);
+                
+                // Verificar si la solicitud fue exitosa (código de estado 200)
+                if (!response.ok) {
+                    throw new Error('Error al buscar parques');
+                }
 
-async function showSearchResults(busqueda){
+                // Obtener los datos de la respuesta
+                const data = await response.json();
+                
+                // Limpiar la tabla de resultados
+                const tablaResultados = document.getElementById('tabla-resultados');
+                const tbody = tablaResultados.querySelector('tbody');
+                tbody.innerHTML = '';
 
+                // Agregar los resultados a la tabla
+                data.forEach(parque => {
+                    const fila = `
+                        <tr>
+                            <td>${parque.id}</td>
+                            <td>${parque.nombre}</td>
+                            <td>${parque.direccion}</td>
+                            <td>${parque.ciudad}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += fila;
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
 
-try {
+        // Escuchar el evento "input" en el cuadro de texto de búsqueda
+        document.getElementById('busqueda').addEventListener('input', function() {
+            // Obtener el valor del cuadro de texto
+            const caracter = this.value.trim();
 
-    const main_url = SUPABASE_REST_KEY + "/rest/v1"
-
-    const request_url = main_url + "/parques?nombre=ilike.${busqueda}%";
-
-    const response = await fetch(request_url);
-
-    if(!response.ok){
-        throw new Error('No matches found...');
-    }
-
-    //Obtener los datos de la respuesta
-    const data = await response.json();
-
-    //Limpiar la tabla de resultados
-    const tablaResultados = document.getElementById('resultado-busqueda');
-    const tbody = tablaResultados.querySelector('tbody');
-    tbody.innerHTML = "";
-
-    // Agregar los resultados a la tabla
-    data.forEach(parque => {
-        const fila = `
-            <tr>
-                <td>${parque.id}</td>
-                <td>${parque.nombre}</td>
-                <td>${parque.direccion}</td>
-                <td>${parque.ciudad}</td>
-            </tr>
-        `;
-        tbody.innerHTML += fila;
-    });
-} catch (error) {
-    console.error('Error:', error);
-}
-
-}
-
-
-        document.getElementById('campoBusqueda').addEventListener('input',function(){
-
-            const busqueda = this.value.trim();
-
-            showSearchResult(busqueda);
-
-        })
-
+            // Llamar a la función buscarParques con el carácter ingresado
+            buscarParques(caracter);
+        });
     </script>
 </body>
 </html>
