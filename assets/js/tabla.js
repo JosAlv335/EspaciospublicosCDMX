@@ -1,5 +1,4 @@
-const SUPABASE_URL = process.env.REST_URL;
-const SUPABASE_KEY = process.env.REST_PUBLIC_KEY;
+
 
 fetch('../php/tabla.php')
 .then(response => response.json())
