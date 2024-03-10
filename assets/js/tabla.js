@@ -1,18 +1,11 @@
-// Obtener las variables de entorno de las credenciales de Supabase
-const SUPABASE_URL = "<?php echo $_ENV['REST_URL']; ?>";
-const SUPABASE_KEY = "<?php echo $_ENV['REST_PUBLIC_KEY']; ?>";
+const SUPABASE_URL = process.env.REST_URL;
+const SUPABASE_KEY = process.env.REST_PUBLIC_KEY;
 
-fetch(`${SUPABASE_URL}/rest/v1/espacios_publicos`, {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_KEY,
-    },
-})
+fetch('../php/tabla.php')
 .then(response => response.json())
 .then(data => {
-// Una vez recibidos los datos, llamas a una función para mostrarlos en la tabla
-mostrarDatosEnTabla(data);
+  // Una vez recibidos los datos, llamas a una función para mostrarlos en la tabla
+  mostrarDatosEnTabla(data);
 })
 .catch(error => console.error('Error:', error));
 
