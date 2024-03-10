@@ -1,6 +1,6 @@
 
 
-fetch('../php/tabla.php')
+fetch('../assets/php/tabla.php')
 .then(response => response.json())
 .then(data => {
   // Una vez recibidos los datos, llamas a una función para mostrarlos en la tabla
