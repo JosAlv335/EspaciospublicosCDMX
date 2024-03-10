@@ -1,12 +1,11 @@
-const SUPABASE_URL = 'https://tu-proyecto.supabase.co';
-const SUPABASE_KEY = 'tu-clave-api-anon';
+const SUPABASE_URL = getenv(REST_URL);
+const SUPABASE_KEY = getenv(REST_PUBLIC_KEY);
 
 fetch(`${SUPABASE_URL}/rest/v1/espacios_publicos`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
         'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
     },
 })
 .then(response => response.json())
