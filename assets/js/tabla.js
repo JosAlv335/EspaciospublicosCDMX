@@ -1,5 +1,5 @@
-const SUPABASE_URL = getenv(REST_URL);
-const SUPABASE_KEY = getenv(REST_PUBLIC_KEY);
+const SUPABASE_URL = process.env.REST_URL;
+const SUPABASE_KEY = process.env.REST_PUBLIC_KEY;
 
 fetch(`${SUPABASE_URL}/rest/v1/espacios_publicos`, {
     method: 'GET',
