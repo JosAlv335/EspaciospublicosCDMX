@@ -1,7 +1,7 @@
 const SUPABASE_URL = 'https://tu-proyecto.supabase.co';
 const SUPABASE_KEY = 'tu-clave-api-anon';
 
-fetch(`${SUPABASE_URL}/rest/v1/tu_tabla`, {
+fetch(`${SUPABASE_URL}/rest/v1/espacios_publicos`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
