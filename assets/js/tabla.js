@@ -45,6 +45,6 @@ function mostrarDatosEnTabla(data) {
     });
   
     // Agrega la tabla al DOM
-    document.getElementById('tabla-container').appendChild(tabla);
+    document.getElementById('tabla-parques').appendChild(tabla);
   }
   
