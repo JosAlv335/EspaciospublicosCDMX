@@ -32,9 +32,9 @@ function buscarAsentamientos() {
 
         // Llenar las listas desplegables con las opciones recibidas en data
         data.estados.forEach(function(estado) {
-            var option = document.createElement('option'); console.log(estado);
-            option.text = estado;
-            option.value = estado;
+            var option = document.createElement('option'); 
+            option.text = estado;console.log(option.text);
+            option.value = estado;console.log(option.value);
             estadoSelect.appendChild(option);
         });
 
