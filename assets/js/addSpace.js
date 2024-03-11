@@ -16,9 +16,9 @@ function buscarAsentamientos() {
     .then(response => response.json())
     .then(data => {
         // Limpiar las opciones existentes en las listas desplegables
-        estadoSelect.innerHTML = '';
-        municipioSelect.innerHTML = '';
-        asentamientoSelect.innerHTML = '';
+        document.getElementById("estado").innerHTML = '';
+        document.getElementById("ciudad_municipio").innerHTML = '';
+        document.getElementById("asentamiento").innerHTML = '';
 
         // Llenar las listas desplegables con las opciones recibidas en data
         data.estados.forEach(function(estado) {
