@@ -20,10 +20,18 @@ function buscarAsentamientos() {
         return response.json();
     })
     .then(data => {
+        
+        
+        // Obtener referencias a los elementos select
+        var estadoSelect = document.getElementById('estado');
+        var municipioSelect = document.getElementById('ciudad_municipio');
+        var asentamientoSelect = document.getElementById('asentamiento');
+
         // Limpiar las opciones existentes en las listas desplegables
-        document.getElementById("estado").innerHTML = '';
-        document.getElementById("ciudad_municipio").innerHTML = '';
-        document.getElementById("asentamiento").innerHTML = '';
+        estadoSelect.innerHTML = '';
+        municipioSelect.innerHTML = '';
+        asentamientoSelect.innerHTML = '';
+
 
         // Llenar las listas desplegables con las opciones recibidas en data
         data.estados.forEach(function(estado) {
