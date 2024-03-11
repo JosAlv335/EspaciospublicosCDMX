@@ -55,7 +55,7 @@ main {
 }
 
 
-
+/*Estilo para el input de CP*/
 .form-group input[id=codigoPostal]{
 
     width: 10%;
@@ -66,5 +66,18 @@ main {
 .form-group input[id=estado]{
 
     width: 50%;
+
+}
+
+/*************************Estilo para los select**********************/
+.form-group select{
+    
+    font-family: "Arial", Times, serif;
+    font-size: 15px;
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
 
 }
