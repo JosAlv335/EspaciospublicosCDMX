@@ -1,33 +1,58 @@
 <?php
-// Variables de entorno con las credenciales de Supabase
-$supabaseUrl = getenv("REST_URL");
-$supabaseKey = getenv("REST_PUBLIC_KEY");
+// Datos de conexión a la base de datos PostgreSQL
+$servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
+$username = "rzcndrfatvphqy";
+$password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
+$dbname = "d2em42nge4v4em";
+$port = "5432";
 
-// URL de la tabla en Supabase
-$urlTabla = "{$supabaseUrl}/rest/v1/espacios_publicos";
+// Crear cadena de conexión DSN para PostgreSQL
+$dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
 
-// Configurar las cabeceras de la solicitud HTTP
-$headers = array(
-    'Content-Type: application/json',
-    'apikey: ' . $supabaseKey,
-    'Authorization: Bearer ' . $supabaseKey
-);
+try {
+    $db = parse_url(getenv("DATABASE_URL"));
 
-// Inicializar cURL
-$ch = curl_init();
+    $conn = new PDO("pgsql:" . sprintf(
+        "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+        $db["host"],
+        $db["port"],
+        $db["user"],
+        $db["pass"],
+        ltrim($db["path"], "/")
+    ));
 
-// Configurar la solicitud cURL
-curl_setopt($ch, CURLOPT_URL, $urlTabla);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-// Ejecutar la solicitud cURL
-$response = curl_exec($ch);
+    // Establecer el modo de error de PDO a excepción
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Cerrar cURL
-curl_close($ch);
+    // Consulta SQL para obtener los datos
+    $sql = "SELECT id, estado, ciudad_municipio, colonia, calle, nombre, activo, usuarios_activos FROM datos";
 
-// Devolver la respuesta al cliente (en formato JSON)
-header('Content-Type: application/json');
-echo $response;
+    // Preparar la sentencia
+    $stmt = $conn->prepare($sql);
+
+    // Ejecutar la sentencia
+    $stmt->execute();
+
+    // Establecer el modo de fetch a asociativo
+    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+    // Verificar si hay filas (registros) devueltas
+    if($stmt->rowCount() > 0) {
+        echo '<table class=mainTable>';
+        echo "<tr><th>ID</th><th>Estado</th><th>Ciudad/Municipio</th><th>Colonia</th><th>Calle</th><th>Nombre</th><th>Activo</th><th>Usuarios Activos</th></tr>";
+        // Obtener los resultados y mostrar en la tabla
+        foreach($stmt->fetchAll() as $row) {
+            echo "<tr><td>".$row["id"]."</td><td>".$row["estado"]."</td><td>".$row["ciudad_municipio"]."</td><td>".$row["colonia"]."</td><td>".$row["calle"]."</td><td>".$row["nombre"]."</td><td>".$row["activo"]."</td><td>".$row["usuarios_activos"]."</td></tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "0 resultados";
+    }
+} catch(PDOException $e) {
+    die("Error de conexión: " . $e->getMessage());
+}
+
+// Cerrar la conexión
+$conn = null;
 ?>

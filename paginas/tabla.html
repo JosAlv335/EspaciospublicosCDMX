@@ -18,21 +18,20 @@
         <button onclick="window.location.href='agregar.html'">Agregar</button>
     </nav>
     <main>
-        <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="campoBusqueda" name="nombre" required>
-        </div>
-        <!-- Contenedor para mostrar los resultados de la búsqueda -->
-        <div id="resultados">
-            <table id="tabla-resultados">
-                <thead id="encabezados">
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+        <div id="tabla-parques"></div>
     </main>
-    <!-- Enlace al archivo JavaScript -->
-    <script src="../assets/js/tabla.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Realizar una solicitud AJAX para obtener la tabla de parques
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '../assets/php/tabla.php', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('tabla-parques').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });
+    </script>
 </body>
 </html>
