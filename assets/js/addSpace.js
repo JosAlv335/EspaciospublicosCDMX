@@ -27,10 +27,7 @@ function buscarAsentamientos() {
         var municipioSelect = document.getElementById('ciudad_municipio');
         var asentamientoSelect = document.getElementById('asentamiento');
 
-        // Limpiar las opciones existentes en las listas desplegables
-        estadoSelect.innerHTML = '';
-        municipioSelect.innerHTML = '';
-        asentamientoSelect.innerHTML = '';
+        
 
 
         // Llenar las listas desplegables con las opciones recibidas en data
