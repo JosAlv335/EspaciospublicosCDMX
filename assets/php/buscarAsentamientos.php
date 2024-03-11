@@ -39,9 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Recorrer los datos recibidos y almacenarlos en los arrays correspondientes
         foreach ($data as $row) {
             // Almacena los estados
-            $estado = $row['estado'];
+            $estado = $row['estado'];echo "<script>console.log('" . $estado . "'</script>";
             if (!in_array($estado, $datos_estados)) {
-                $datos_estados[] = $estado;echo "Console.log($estado);";
+                $datos_estados[] = $estado;
             }
     
             // Almacena los municipios/delegaciones
