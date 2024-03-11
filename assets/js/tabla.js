@@ -2,7 +2,7 @@
 async function buscarParques(caracter) {
     try {
         // Obtener el enlace de la API de Supabase de la variable de entorno pasada por PHP
-        const apiUrl = '<?php echo getenv("API_URL"); ?>';
+        const apiUrl = 'https://zrwtmvescjmkdenhdaqh.supabase.co';
         
         // Realizar la solicitud GET a la API de Supabase
         const response = await fetch(`${apiUrl}/parques?nombre=ilike.${caracter}%`);
