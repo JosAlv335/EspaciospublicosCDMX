@@ -48,12 +48,12 @@ function buscarAsentamientos() {
             option.text = asentamiento;
             asentamientoSelect.appendChild(option);
         })
-        .catch(error => {
-            console.error('Error en la solicitud AJAX:', error);
-            // Mostrar un mensaje de error al usuario o realizar otras acciones apropiadas
-        });
+        
 
-    })
+    }).catch(error => {
+        console.error('Error en la solicitud AJAX:', error);
+        // Mostrar un mensaje de error al usuario o realizar otras acciones apropiadas
+    });
     
     
 
