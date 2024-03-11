@@ -18,9 +18,21 @@
         <button onclick="window.location.href='agregar.html'">Agregar</button>
     </nav>
     <main>
-        <div id="tabla-parques"></div>
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="campoBusqueda" name="nombre" required>
+        </div>
+        <!-- Contenedor para mostrar los resultados de la búsqueda -->
+        <div id="resultados">
+            <table id="tabla-resultados">
+                <thead id="encabezados">
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </main>
-    <!-- Referencia al archivo JavaScript externo -->
+    <!-- Enlace al archivo JavaScript -->
     <script src="../assets/js/tabla.js"></script>
 </body>
 </html>

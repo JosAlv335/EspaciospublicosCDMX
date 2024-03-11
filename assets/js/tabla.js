@@ -1,43 +1,50 @@
+// Función para hacer una solicitud GET a la API de Supabase y buscar resultados en la tabla "parques"
+async function buscarParques(caracter) {
+    try {
+        // Obtener el enlace de la API de Supabase de la variable de entorno pasada por PHP
+        const apiUrl = '<?php echo getenv("API_URL"); ?>';
+        
+        // Realizar la solicitud GET a la API de Supabase
+        const response = await fetch(`${apiUrl}/parques?nombre=ilike.${caracter}%`);
+        
+        // Verificar si la solicitud fue exitosa (código de estado 200)
+        if (!response.ok) {
+            throw new Error('Error al buscar parques');
+        }
 
+        // Obtener los datos de la respuesta
+        const data = await response.json();
+        
+        // Limpiar la tabla de resultados y los encabezados
+        const tablaResultados = document.getElementById('tabla-resultados');
+        const tbody = tablaResultados.querySelector('tbody');
+        const encabezados = document.getElementById('encabezados');
+        tbody.innerHTML = '';
+        encabezados.innerHTML = '';
 
-// Hacer la solicitud HTTP al archivo PHP que maneja la comunicación con Supabase
-fetch('../assets/php/tabla.php')
-  .then(response => response.json())
-  .then(data => {
-    // Verificar si data es un array y tiene elementos
-    if (Array.isArray(data) && data.length > 0) {
-      // Una vez recibidos los datos, llamar a una función para mostrarlos en la tabla
-      mostrarDatosEnTabla(data);
-    } else {
-      console.error('Error: No se encontraron datos');
+        // Agregar los encabezados de la tabla
+        const columnas = Object.keys(data[0]);
+        const encabezadosHTML = columnas.map(columna => `<th>${columna}</th>`).join('');
+        encabezados.innerHTML = `<tr>${encabezadosHTML}</tr>`;
+
+        // Agregar los resultados a la tabla
+        data.forEach(registro => {
+            const fila = columnas.map(columna => `<td>${registro[columna]}</td>`).join('');
+            tbody.innerHTML += `<tr>${fila}</tr>`;
+        });
+    } catch (error) {
+        console.error('Error:', error);
     }
-  })
-  .catch(error => console.error('Error:', error));
-
-// Función para mostrar los datos en una tabla
-function mostrarDatosEnTabla(data) {
-  const tabla = document.createElement('table');
-  const encabezado = document.createElement('tr');
-
-  // Crear las celdas del encabezado de la tabla
-  for (const campo in data[0]) {
-    const th = document.createElement('th');
-    th.textContent = campo;
-    encabezado.appendChild(th);
-  }
-  tabla.appendChild(encabezado);
-
-  // Crear las filas de datos
-  data.forEach(registro => {
-    const fila = document.createElement('tr');
-    for (const campo in registro) {
-      const celda = document.createElement('td');
-      celda.textContent = registro[campo];
-      fila.appendChild(celda);
-    }
-    tabla.appendChild(fila);
-  });
-
-  // Agregar la tabla al DOM
-  document.getElementById('tabla-parques').appendChild(tabla);
 }
+
+// Obtener el cuadro de texto de búsqueda
+const busquedaInput = document.getElementById('campoBusqueda');
+
+// Escuchar el evento "input" en el cuadro de texto de búsqueda
+busquedaInput.addEventListener('input', function() {
+    // Obtener el valor del cuadro de texto
+    const caracter = this.value.trim();
+
+    // Llamar a la función buscarParques con el carácter ingresado
+    buscarParques(caracter);
+});
