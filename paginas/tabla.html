@@ -18,7 +18,14 @@
         <button onclick="window.location.href='agregar.html'">Agregar</button>
     </nav>
     <main>
-        <div id="tabla-parques"></div>
+        <div class="form-group">
+            <label for="nombre">Buscar nombre:</label>
+            <input type="text" id="campoBusqueda" name="nombre" required>
+        </div>
+            
+        <div class="contenedor-tabla">
+            <div id="resultado-busqueda"></div>
+        </div>
     </main>
     <script>
         window.addEventListener('DOMContentLoaded', () => {

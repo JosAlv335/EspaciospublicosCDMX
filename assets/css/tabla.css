@@ -43,9 +43,8 @@ nav button:hover {
 }
 
 main {
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
+    width: 75%;
+    margin-top: 25px;
     justify-content: center;
 }
 
@@ -68,4 +67,23 @@ th {
 
 .mainTable td {
     background-color: #ffffff; /* Cambia #FFFFFF al color deseado */
+}
+
+/*Estilos del icono de busqueda*/
+.form-group {
+    margin-bottom: 20px;
+    display:flex;
+}
+
+.form-group label {
+    margin-top: 10px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
