@@ -10,7 +10,7 @@ document.getElementById('codigoPostal').addEventListener('input', function() {
 function buscarAsentamientos() {
     
     var codigoPostal = document.getElementById('codigoPostal').value;
-    var url = 'tu_archivo_php.php?codigoPostal=' + encodeURIComponent(codigoPostal);
+    var url = '../php/buscarAsentamientos.php?codigoPostal=' + encodeURIComponent(codigoPostal);
 
     fetch(url)
     .then(response => response.json())
