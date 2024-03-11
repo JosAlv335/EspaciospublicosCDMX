@@ -34,10 +34,10 @@ function buscarAsentamientos() {
         data.estados.forEach(function(estado) {
             var option = document.createElement('option'); console.log(estado);
             option.value = estado;console.log(option.value);
-            option.text = estado;console.log(option.text);
+            option.text = estado;console.log(option.text);console.log("adios");
             estadoSelect.add(option);
         });
-
+        console.log("jeje");
         // Agregar las nuevas opciones de municipios
         data.municipios.forEach(function(municipio) {
             var option = document.createElement('option');
