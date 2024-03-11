@@ -1,7 +1,7 @@
 
 
 // Hacer la solicitud HTTP al archivo PHP que maneja la comunicación con Supabase
-fetch('get_data.php')
+fetch('../assets/php/tabla.php')
   .then(response => response.json())
   .then(data => {
     // Verificar si data es un array y tiene elementos
