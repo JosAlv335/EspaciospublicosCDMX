@@ -73,21 +73,24 @@ th {
 /*Estilos del icono de busqueda*/
 .form-group {
     margin-bottom: 20px;
-    display:flex;
 }
 
 .form-group label {
     font-family: "Arial", Times, serif;
     font-size: 20px;
-    margin-top: 10px;
     display: block;
     margin-bottom: 5px;
 }
 
 .form-group input {
-    font-size: 25px;
+    font-size: 20px;
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.contenedor-tabla {
+    height: 300px;
+    overflow: auto;
 }
