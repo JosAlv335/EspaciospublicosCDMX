@@ -53,3 +53,18 @@ main {
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+
+.form-group input[id=codigoPostal]{
+
+    width: 10%;
+
+
+}
+
+.form-group input[id=estado]{
+
+    width: 50%;
+
+}
