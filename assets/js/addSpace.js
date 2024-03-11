@@ -20,7 +20,7 @@ function buscarAsentamientos() {
         return response.json();
     })
     .then(data => {
-        console.log("Hola");
+        console.log("hola");
         
         // Obtener referencias a los elementos select
         var estadoSelect = document.getElementById('estado');
@@ -32,26 +32,26 @@ function buscarAsentamientos() {
 
         // Llenar las listas desplegables con las opciones recibidas en data
         data.estados.forEach(function(estado) {
-            var option = document.createElement('option'); 
-            option.text = estado;console.log(option.text);
-            option.value = estado;console.log(option.value);
-            estadoSelect.appendChild(option);
+            var option = document.createElement('option'); console.log(estado);
+            option.value = estado;
+            option.text = estado;
+            estadoSelect.add(option);
         });
 
         // Agregar las nuevas opciones de municipios
         data.municipios.forEach(function(municipio) {
             var option = document.createElement('option');
-            option.text = municipio;
             option.value = municipio;
-            municipioSelect.appendChild(option);
+            option.text = municipio;
+            municipioSelect.add(option);
         });
 
         // Agregar las nuevas opciones de asentamientos
         data.asentamientos.forEach(function(asentamiento) {
             var option = document.createElement('option');
-            option.text = asentamiento;
             option.value = asentamiento;
-            asentamientoSelect.appendChild(option);
+            option.text = asentamiento;
+            asentamientoSelect.add(option);
         })
         
 
