@@ -1,61 +1,57 @@
 <?php
-// Verificar si el formulario ha sido enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Datos de conexión a la base de datos PostgreSQL
-    $servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
-    $username = "rzcndrfatvphqy"; // Cambia esto por tu nombre de usuario
-    $password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0"; // Cambia esto por tu contraseña
-    $dbname = "d2em42nge4v4em";
-    $port = "5432"; // Puerto por defecto de PostgreSQL
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // URL de la API de Supabase
+    $supabaseUrl = $_ENV["REST_URL"] . "/rest/v1/espacios_publicos";
+    // Clave pública de la API de Supabase
+    $supabaseKey = getenv("REST_PUBLIC_KEY");
 
-    // Crear cadena de conexión DSN para PostgreSQL
-    $dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
+    // Recibir el nombre de la búsqueda y eliminar espacios
+    $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
 
-    try {
-        $db = parse_url(getenv("DATABASE_URL"));
+    // Configurar la solicitud HTTP a Supabase
+    $url = $supabaseUrl . '?nombre=like.*' . urlencode($nombre_busqueda) . '*';
+    $options = array(
+        'http' => array(
+            'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
+            'method' => 'GET'
+        )
+    );
 
-        $conn = new PDO("pgsql:" . sprintf(
-            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-            $db["host"],
-            $db["port"],
-            $db["user"],
-            $db["pass"],
-            ltrim($db["path"], "/")
-        ));
+    // Realizar la solicitud HTTP
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
 
+    // Verificar si la solicitud fue exitosa
+    if ($response === FALSE) {
+        echo "$supabaseUrl - URL";
+        echo "$supabaseKey - Key";
+        echo "$options - options";
+        echo "Error al realizar la solicitud HTTP.";
+    } else {
+        // Decodificar la respuesta JSON
+        $data = json_decode($response, true);
 
-        // Establecer el modo de error de PDO a excepción
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Recuperar los datos del formulario
-        $estado = $_POST['estado'];
-        $ciudad_municipio = $_POST['ciudad_municipio'];
-        $colonia = $_POST['colonia'];
-        $calle = $_POST['calle'];
-        $nombre = $_POST['nombre'];
-
-        // Preparar la consulta SQL usando sentencias preparadas
-        $sql = "INSERT INTO datos (estado, ciudad_municipio, colonia, calle, nombre) VALUES (?, ?, ?, ?, ?)";
-
-        // Preparar la sentencia
-        $stmt = $conn->prepare($sql);
-
-        // Vincular parámetros
-        $stmt->bindParam(1, $estado);
-        $stmt->bindParam(2, $ciudad_municipio);
-        $stmt->bindParam(3, $colonia);
-        $stmt->bindParam(4, $calle);
-        $stmt->bindParam(5, $nombre);
-
-        // Ejecutar la sentencia
-        $stmt->execute();
-
-        echo "Registro agregado exitosamente";
-    } catch(PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        // Mostrar resultados en una tabla si se encuentran registros
+        if (!empty($data)) {
+            echo "<table>";
+            echo "<tr>";
+            foreach ($data[0] as $key => $value) {
+                echo "<th>$key</th>"; // Mostrar el nombre de la columna como encabezado
+            }
+            echo "</tr>";
+            foreach ($data as $row) {
+                echo "<tr>";
+                foreach ($row as $value) {
+                    echo "<td>$value</td>"; // Mostrar el valor de la celda
+                }
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "No se encontraron resultados.";
+        }
     }
-
-    // Cerrar la conexión
-    $conn = null;
+} else {
+    echo "<h2>No matches found...</h2>";
 }
 ?>
