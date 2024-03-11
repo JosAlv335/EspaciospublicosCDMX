@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // Verificar si la solicitud fue exitosa
     if ($response === FALSE) {
-        echo "$supabaseURL - URL";
+        echo "$supabaseUrl - URL";
         echo "$supabaseKey - Key";
         echo "$options - options";
         echo "Error al realizar la solicitud HTTP.";
