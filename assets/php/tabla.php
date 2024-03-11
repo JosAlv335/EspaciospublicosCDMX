@@ -1,58 +1,71 @@
 <?php
-// Datos de conexión a la base de datos PostgreSQL
-$servername = "ec2-52-54-200-216.compute-1.amazonaws.com";
-$username = "rzcndrfatvphqy";
-$password = "1c11fd7412c615db1fa8bc7dd5d5353650f3383ca6f549ee6cf92514cf392ab0";
-$dbname = "d2em42nge4v4em";
-$port = "5432";
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // URL de la API de Supabase
+    $supabaseUrl = $_ENV["REST_URL"] . "/rest/v1/espacios_publicos";
+    // Clave pública de la API de Supabase
+    $supabaseKey = getenv("REST_PUBLIC_KEY");
 
-// Crear cadena de conexión DSN para PostgreSQL
-$dsn = "pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password";
+    // Recibir el nombre de la búsqueda y eliminar espacios
+    $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
 
-try {
-    $db = parse_url(getenv("DATABASE_URL"));
-
-    $conn = new PDO("pgsql:" . sprintf(
-        "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-        $db["host"],
-        $db["port"],
-        $db["user"],
-        $db["pass"],
-        ltrim($db["path"], "/")
-    ));
-
-
-    // Establecer el modo de error de PDO a excepción
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Consulta SQL para obtener los datos
-    $sql = "SELECT id, estado, ciudad_municipio, colonia, calle, nombre, activo, usuarios_activos FROM datos";
-
-    // Preparar la sentencia
-    $stmt = $conn->prepare($sql);
-
-    // Ejecutar la sentencia
-    $stmt->execute();
-
-    // Establecer el modo de fetch a asociativo
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-    // Verificar si hay filas (registros) devueltas
-    if($stmt->rowCount() > 0) {
-        echo '<table class=mainTable>';
-        echo "<tr><th>ID</th><th>Estado</th><th>Ciudad/Municipio</th><th>Colonia</th><th>Calle</th><th>Nombre</th><th>Activo</th><th>Usuarios Activos</th></tr>";
-        // Obtener los resultados y mostrar en la tabla
-        foreach($stmt->fetchAll() as $row) {
-            echo "<tr><td>".$row["id"]."</td><td>".$row["estado"]."</td><td>".$row["ciudad_municipio"]."</td><td>".$row["colonia"]."</td><td>".$row["calle"]."</td><td>".$row["nombre"]."</td><td>".$row["activo"]."</td><td>".$row["usuarios_activos"]."</td></tr>";
-        }
-        echo "</table>";
-    } else {
-        echo "0 resultados";
+    if($nombre_busqueda == ''){
+        // Configurar la solicitud HTTP a Supabase
+        $url = $supabaseUrl . '?nombre=all.' . urlencode($nombre_busqueda);
+        $options = array(
+            'http' => array(
+                'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
+                'method' => 'GET'
+            )
+        );
+    }else{
+        // Configurar la solicitud HTTP a Supabase
+        $url = $supabaseUrl . '?nombre=like.*' . urlencode($nombre_busqueda) . '*';
+        $options = array(
+            'http' => array(
+                'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
+                'method' => 'GET'
+            )
+        );
     }
-} catch(PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+
+    
+
+    // Realizar la solicitud HTTP
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+
+    // Verificar si la solicitud fue exitosa
+    if ($response === FALSE) {
+        echo "$supabaseUrl - URL";
+        echo "$supabaseKey - Key";
+        echo "$options - options";
+        echo "Error al realizar la solicitud HTTP.";
+    } else {
+        // Decodificar la respuesta JSON
+        $data = json_decode($response, true);
+
+        // Mostrar resultados en una tabla si se encuentran registros
+        if (!empty($data)) {
+            echo "<table>";
+            echo "<tr>";
+            foreach ($data[0] as $key => $value) {
+                echo "<th>$key</th>"; // Mostrar el nombre de la columna como encabezado
+            }
+            echo "</tr>";
+            foreach ($data as $row) {
+                echo "<tr>";
+                foreach ($row as $value) {
+                    echo "<td>$value</td>"; // Mostrar el valor de la celda
+                }
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "No se encontraron resultados.";
+        }
+    }
+} else {
+    echo "<h2>No matches found...</h2>";
 }
 
-// Cerrar la conexión
-$conn = null;
 ?>
