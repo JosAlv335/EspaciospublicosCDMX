@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
 
     // Configurar la solicitud HTTP a Supabase
-    $url = $supabaseUrl . '?nombre=ilike.' . urlencode($nombre_busqueda) . '*';
+    $url = $supabaseUrl . '?nombre=like.*' . urlencode($nombre_busqueda) . '*';
     $options = array(
         'http' => array(
             'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
