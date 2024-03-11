@@ -35,7 +35,7 @@ function buscarAsentamientos() {
 
         // Llenar las listas desplegables con las opciones recibidas en data
         data.estados.forEach(function(estado) {
-            var option = document.createElement('option');
+            var option = document.createElement('option'); console.log(estado);
             option.value = estado;
             option.text = estado;
             estadoSelect.appendChild(option);
