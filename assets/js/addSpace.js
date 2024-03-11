@@ -13,7 +13,12 @@ function buscarAsentamientos() {
     var url = '../assets/php/buscarAsentamientos.php?codigoPostal=' + encodeURIComponent(codigoPostal);
 
     fetch(url)
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Hubo un problema con la solicitud: ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
         // Limpiar las opciones existentes en las listas desplegables
         document.getElementById("estado").innerHTML = '';
@@ -43,7 +48,10 @@ function buscarAsentamientos() {
             option.text = asentamiento;
             asentamientoSelect.appendChild(option);
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error en la solicitud AJAX:', error);
+            // Mostrar un mensaje de error al usuario o realizar otras acciones apropiadas
+        });
 
     })
     
