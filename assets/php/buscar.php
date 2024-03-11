@@ -1,55 +1,54 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // URL de la API de Supabase
+    $supabaseUrl = getenv("REST_URL");
+    // Clave pública de la API de Supabase
+    $supabaseKey = getenv("REST_PUBLIC_KEY");
 
-    try {
-        $db = parse_url(getenv("DATABASE_URL"));
+    // Recibir el nombre de la búsqueda y eliminar espacios
+    $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
 
-        $conn = new PDO("pgsql:" . sprintf(
-            "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-            $db["host"],
-            $db["port"],
-            $db["user"],
-            $db["pass"],
-            ltrim($db["path"], "/")
-        ));
+    // Configurar la solicitud HTTP a Supabase
+    $url = $supabaseUrl . '?nombre=ilike.' . urlencode($nombre_busqueda) . '*';
+    $options = array(
+        'http' => array(
+            'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
+            'method' => 'GET'
+        )
+    );
 
+    // Realizar la solicitud HTTP
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
 
-        // Establecer el modo de error de PDO a excepción
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Recibir el nombre de la búsqueda y eliminar espacios
-        //$nombre_busqueda = str_replace(' ', '', $_GET['nombre']);
-        $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] :"";
-
-        //Sanitiza la entrada para evitar inyecciones sql
-        $nombre_busqueda = htmlspecialchars($nombre_busqueda);
-
-        // Preparar la consulta SQL para buscar registros que contengan el nombre (sin importar mayúsculas o minúsculas ni espacios)
-        //$sql = "SELECT * FROM datos WHERE REPLACE(LOWER(nombre), ' ', '') LIKE REPLACE(LOWER(?), ' ', '')";
-        $sql = "SELECT * FROM datos WHERE nombre LIKE '%$nombre_busqueda%'";
-        $stmt = $conn->prepare($sql);
-        //$stmt->bindValue(1, "%$nombre_busqueda%", PDO::PARAM_STR);
-        $stmt->execute();
+    // Verificar si la solicitud fue exitosa
+    if ($response === FALSE) {
+        echo "Error al realizar la solicitud HTTP.";
+    } else {
+        // Decodificar la respuesta JSON
+        $data = json_decode($response, true);
 
         // Mostrar resultados en una tabla si se encuentran registros
-        if ($stmt->rowCount() > 0) {
+        if (!empty($data)) {
             echo "<table>";
-            echo "<tr><th>ID</th><th>Estado</th><th>Ciudad/Municipio</th><th>Colonia</th><th>Calle</th><th>Nombre</th><th>Activo</th><th>Usuarios Activos</th></tr>";
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<tr><td>".$row["id"]."</td><td>".$row["estado"]."</td><td>".$row["ciudad_municipio"]."</td><td>".$row["colonia"]."</td><td>".$row["calle"]."</td><td>".$row["nombre"]."</td><td>".$row["activo"]."</td><td>".$row["usuarios_activos"]."</td></tr>";
+            echo "<tr>";
+            foreach ($data[0] as $key => $value) {
+                echo "<th>$key</th>"; // Mostrar el nombre de la columna como encabezado
+            }
+            echo "</tr>";
+            foreach ($data as $row) {
+                echo "<tr>";
+                foreach ($row as $value) {
+                    echo "<td>$value</td>"; // Mostrar el valor de la celda
+                }
+                echo "</tr>";
             }
             echo "</table>";
         } else {
             echo "No se encontraron resultados.";
         }
-    } catch(PDOException $e) {
-        echo "Error: " . $e->getMessage();
     }
-
-    // Cerrar la conexión
-    $conn = null;
-}
-else{
+} else {
     echo "<h2>No matches found...</h2>";
 }
 ?>
