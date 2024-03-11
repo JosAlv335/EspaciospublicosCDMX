@@ -28,7 +28,7 @@ function buscarAsentamientos() {
         var asentamientoSelect = document.getElementById('asentamiento');
 
         console.log(estadoSelect);
-
+        console.log(data);
 
         // Llenar las listas desplegables con las opciones recibidas en data
         data.estados.forEach(function(estado) {
