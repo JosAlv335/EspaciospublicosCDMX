@@ -8,27 +8,40 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Recibir el nombre de la búsqueda y eliminar espacios
     $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
 
-    if(strcmp($nombre_busqueda,'') == 0){
-        // Configurar la solicitud HTTP a Supabase
-        $url = $supabaseUrl . '?nombre=all.' . urlencode($nombre_busqueda);
-        $options = array(
-            'http' => array(
-                'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
-                'method' => 'GET'
-            )
-        );
+    if(strcmp($nombre_busqueda,"") == 0){
+        mostrarTabla($nombre_busqueda,$supabaseKey,$supabaseUrl);
     }else{
-        // Configurar la solicitud HTTP a Supabase
-        $url = $supabaseUrl . '?nombre=like.*' . urlencode($nombre_busqueda) . '*';
-        $options = array(
-            'http' => array(
-                'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
-                'method' => 'GET'
-            )
-        );
+        buscarRegistro($nombre_busqueda,$supabaseKey,$supabaseUrl);
     }
 
     
+} else {
+    echo "<h2>No matches found...</h2>";
+}
+
+function mostrarTabla($nombre_busqueda,$supabaseKey,$supabaseUrl){
+    
+    // Configurar la solicitud HTTP a Supabase
+    $url = $supabaseUrl . '?nombre=all.' . urlencode($nombre_busqueda);
+    $options = array(
+        'http' => array(
+            'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
+            'method' => 'GET'
+        )
+    );
+
+}
+
+function buscarRegistro($nombre_busqueda,$supabaseKey,$supabaseUrl){
+
+    // Configurar la solicitud HTTP a Supabase
+    $url = $supabaseUrl . '?nombre=like.*' . urlencode($nombre_busqueda) . '*';
+    $options = array(
+        'http' => array(
+            'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
+            'method' => 'GET'
+        )
+    );
 
     // Realizar la solicitud HTTP
     $context = stream_context_create($options);
@@ -36,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // Verificar si la solicitud fue exitosa
     if ($response === FALSE) {
-        echo "$supabaseUrl - URL\n";
+        echo "$supabaseUrl - URL";
         echo "$supabaseKey - Key";
         echo "$options - options";
         echo "Error al realizar la solicitud HTTP.";
@@ -64,8 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo "No se encontraron resultados.";
         }
     }
-} else {
-    echo "<h2>No matches found...</h2>";
+
 }
 
 ?>
