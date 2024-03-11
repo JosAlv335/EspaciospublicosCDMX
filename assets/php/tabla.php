@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Recibir el nombre de la búsqueda y eliminar espacios
     $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
 
-    if($nombre_busqueda == ''){
+    if(strcmp($nombre_busqueda,'') == 0){
         // Configurar la solicitud HTTP a Supabase
         $url = $supabaseUrl . '?nombre=all.' . urlencode($nombre_busqueda);
         $options = array(
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // Verificar si la solicitud fue exitosa
     if ($response === FALSE) {
-        echo "$supabaseUrl - URL";
+        echo "$supabaseUrl - URL\n";
         echo "$supabaseKey - Key";
         echo "$options - options";
         echo "Error al realizar la solicitud HTTP.";
