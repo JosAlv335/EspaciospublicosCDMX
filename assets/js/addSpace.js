@@ -20,7 +20,7 @@ function buscarAsentamientos() {
         return response.json();
     })
     .then(data => {
-        
+        console.log("Hola");
         
         // Obtener referencias a los elementos select
         var estadoSelect = document.getElementById('estado');
