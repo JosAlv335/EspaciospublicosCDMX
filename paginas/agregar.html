@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Agregar elemento</h1>
+        <h1>Agregar Registro</h1>
     </header>
     <main>
         <div id="mensaje"></div> <!-- Para mostrar mensajes de éxito o error -->
@@ -16,19 +16,25 @@
         <form id="addForm">
             <div class="form-group">
                 <label for="codigoPostal">Código Postal:</label>
-                <input type="text" id="codigoPostal" name="codigoPostal" required>
+                <input type="text" id="codigoPostal" name="codigoPostal" maxlength="5" required>
             </div>
             <div class="form-group">
                 <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado" required>
+                <select id="estado" name="estado">
+                    <option value="" selected disabled>Selecciona un estado</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="ciudad_municipio">Ciudad/Municipio:</label>
-                <input type="text" id="ciudad_municipio" name="ciudad_municipio" required>
+                <select id="ciudad_municipio" name="ciudad_municipio">
+                    <option value="" selected disabled>Selecciona una ciudad/municipio</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="colonia">Colonia:</label>
-                <input type="text" id="colonia" name="colonia" required>
+                <label for="asentamiento">Asentamiento:</label>
+                <select id="asentamiento" name="asentamiento">
+                    <option value="" selected disabled>Selecciona un asentamiento</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="calle">Calle:</label>
@@ -67,5 +73,6 @@
             window.location.href = "tabla.html"; // Redirigir a index.html
         });
     </script>
+    <script src="../assets/js/addSpace.js"></script>
 </body>
 </html>

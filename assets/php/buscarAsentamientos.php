@@ -30,11 +30,44 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } else {
         // Decodificar la respuesta JSON
         $data = json_decode($response, true);
-
-        //Devuelve los resultados en formato JSON
-        echo json_encode($data);
-
+    
+        // Inicializar los arrays para almacenar los datos
+        $datos_estados = array();
+        $datos_municipios = array();
+        $datos_asentamientos = array();
+    
+        // Recorrer los datos recibidos y almacenarlos en los arrays correspondientes
+        foreach ($data as $row) {
+            // Almacena los estados
+            $estado = $row['estado'];
+            if (!in_array($estado, $datos_estados)) {
+                $datos_estados[] = $estado;
+            }
+    
+            // Almacena los municipios/delegaciones
+            $municipio = $row['municipio'];
+            if (!in_array($municipio, $datos_municipios)) {
+                $datos_municipios[] = $municipio;
+            }
+    
+            // Almacena los asentamientos
+            $asentamiento = $row['asentamiento'];
+            if (!in_array($asentamiento, $datos_asentamientos)) {
+                $datos_asentamientos[] = $asentamiento;
+            }
+        }
+    
+        // Construir el array para la respuesta JSON
+        $respuesta_json = array(
+            'estados' => $datos_estados,
+            'municipios' => $datos_municipios,
+            'asentamientos' => $datos_asentamientos
+        );
+    
+        // Convertir el array a formato JSON y devolverlo
+        echo json_encode($respuesta_json);
     }
+
 } else {
     echo "<h2>No matches found...</h2>";
 }
