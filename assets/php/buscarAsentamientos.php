@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             // Almacena los estados
             $estado = $row['estado'];
             if (!in_array($estado, $datos_estados)) {
-                $datos_estados[] = $estado;
+                $datos_estados[] = $estado;echo "Console.log($estado);";
             }
     
             // Almacena los municipios/delegaciones
