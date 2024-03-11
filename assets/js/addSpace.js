@@ -33,24 +33,24 @@ function buscarAsentamientos() {
         // Llenar las listas desplegables con las opciones recibidas en data
         data.estados.forEach(function(estado) {
             var option = document.createElement('option'); console.log(estado);
-            option.value = estado;
             option.text = estado;
+            option.value = estado;
             estadoSelect.appendChild(option);
         });
 
         // Agregar las nuevas opciones de municipios
         data.municipios.forEach(function(municipio) {
             var option = document.createElement('option');
-            option.value = municipio;
             option.text = municipio;
+            option.value = municipio;
             municipioSelect.appendChild(option);
         });
 
         // Agregar las nuevas opciones de asentamientos
         data.asentamientos.forEach(function(asentamiento) {
             var option = document.createElement('option');
-            option.value = asentamiento;
             option.text = asentamiento;
+            option.value = asentamiento;
             asentamientoSelect.appendChild(option);
         })
         
