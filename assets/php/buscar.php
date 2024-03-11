@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // URL de la API de Supabase
-    $supabaseUrl = getenv("REST_URL") . "/rest/v1/spacios_publicos";
+    $supabaseUrl = "https://zrwtmvescjmkdenhdaqh.supabase.co" . "/rest/v1/spacios_publicos";
     // Clave pública de la API de Supabase
     $supabaseKey = getenv("REST_PUBLIC_KEY");
 
