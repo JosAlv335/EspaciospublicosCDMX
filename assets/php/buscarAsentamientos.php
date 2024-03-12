@@ -36,36 +36,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $datos_municipios = array();
         $datos_asentamientos = array();
     
-        // Recorrer los datos recibidos y almacenarlos en los arrays correspondientes
-        foreach ($data as $row) {
-            // Almacena los estados
-            $estado = $row['estado'];echo "<script>console.log('" . $estado . "'</script>";
-            if (!in_array($estado, $datos_estados)) {
-                $datos_estados[] = $estado;
-            }
-    
-            // Almacena los municipios/delegaciones
-            $municipio = $row['municipio'];
-            if (!in_array($municipio, $datos_municipios)) {
-                $datos_municipios[] = $municipio;
-            }
-    
-            // Almacena los asentamientos
-            $asentamiento = $row['asentamiento'];
-            if (!in_array($asentamiento, $datos_asentamientos)) {
-                $datos_asentamientos[] = $asentamiento;
+        // Generar las opciones para los campos de selección
+        $options = array();
+        foreach ($data as $key => $values) {
+            $options[$key] = '';
+            foreach ($values as $value) {
+                $options[$key] .= '<option value="' . htmlspecialchars($value) . '">' . htmlspecialchars($value) . '</option>';
             }
         }
     
-        // Construir el array para la respuesta JSON
-        $respuesta_json = array(
-            'estados' => $datos_estados,
-            'municipios' => $datos_municipios,
-            'asentamientos' => $datos_asentamientos
-        );
-    
         // Convertir el array a formato JSON y devolverlo
-        echo json_encode($respuesta_json);
+        echo json_encode($options);
     }
 
 } else {
