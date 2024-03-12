@@ -1,6 +1,6 @@
 document.getElementById('srchCP').addEventListener('click',function(){
 
-    var codigoPostal = getElementById('codigoPostal').value;
+    var codigoPostal = document.getElementById('codigoPostal').value;
     if(codigoPostal.length == 0){
         document.getElementById('codigoPostal').innerHTML = "Ingrese Codigo Postal..";
     }else if(codigoPostal.length <= 5){
