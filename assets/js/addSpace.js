@@ -4,6 +4,10 @@ document.getElementById('srchCP').addEventListener('click',function(){
     if(codigoPostal.length == 0){
         document.getElementById('codigoPostal').innerHTML = "Ingrese Codigo Postal..";
     }else if(codigoPostal.length <= 5){
+        // Limpiar las opciones existentes en las listas desplegables
+        document.getElementById("estado").innerHTML = '';
+        document.getElementById("ciudad_municipio").innerHTML = '';
+        document.getElementById("asentamiento").innerHTML = '';
         buscarAsentamientos();
     }
 
@@ -20,11 +24,6 @@ function buscarAsentamientos(){
     xhr.onreadystatechange = function(){
 
         if (xhr.readyState === 4 && xhr.status === 200) {
-
-            // Limpiar las opciones existentes en las listas desplegables
-            document.getElementById("estado").innerHTML = '';
-            document.getElementById("ciudad_municipio").innerHTML = '';
-            document.getElementById("asentamiento").innerHTML = '';
 
             var response = JSON.parse(xhr.responseText);
     
