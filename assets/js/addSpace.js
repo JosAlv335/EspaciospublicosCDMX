@@ -42,17 +42,24 @@ function buscarAsentamientos(){
     
             // Llenar el campo de selección de asentamientos
             var asentamientoSelect = document.getElementById('asentamiento');
-            response.asentamientos.forEach(function(asentamiento) {
-                var option = document.createElement('option');
-                option.value = asentamiento;
-                option.text = asentamiento;
-                asentamientoSelect.appendChild(option);
-            });
+            if (Array.isArray(response.asentamientos)) {
+                response.asentamientos.forEach(function(asentamiento) {
+                    response.asentamientos.forEach(function(asentamiento) {
+                        var option = document.createElement('option');
+                        option.value = asentamiento;
+                        option.text = asentamiento;
+                        asentamientoSelect.appendChild(option);
+                    });
+                });
+            } else {
+                // Manejar el caso en el que response.asentamientos no es un array
+                console.error('Los asentamientos no están en un formato válido:', response.asentamientos);
+            }
         }
 
     }
 
-    xhr.send()
+    xhr.send();
 
 
 }
