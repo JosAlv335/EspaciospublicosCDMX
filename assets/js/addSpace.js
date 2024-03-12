@@ -1,4 +1,4 @@
-document.getElementById('codigoPostal').addEventListener('click',function(){
+document.getElementById('srchCP').addEventListener('click',function(){
 
     var codigoPostal = this.value;
     if(codigoPostal.length == 0){
