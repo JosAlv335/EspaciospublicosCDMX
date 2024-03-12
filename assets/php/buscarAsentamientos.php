@@ -29,56 +29,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo "Error al realizar la solicitud HTTP.";
     } else {
         // Decodificar la respuesta JSON
-        $data = json_decode($response, true);
-    
-        // Inicializar los arrays para almacenar los datos
-        $datos_estados = array();
-        $datos_municipios = array();
-        $datos_asentamientos = array();
-    
-        // Obtener los estados, municipios y asentamientos
-        foreach ($data as $row) {
-            $estado = $row['Estado'];
-            $municipio = $row['Municipio'];
-            $asentamiento = $row['Asentamiento'];
-    
-            if (!in_array($estado, $datos_estados)) {
-                $datos_estados[] = $estado;
-            }
-    
-            if (!in_array($municipio, $datos_municipios)) {
-                $datos_municipios[] = $municipio;
-            }
-    
-            if (!in_array($asentamiento, $datos_asentamientos)) {
-                $datos_asentamientos[] = $asentamiento;
-            }
-        }
-    
-        // Generar las opciones para los campos de selección
-        $options_estados = '';
-        foreach ($datos_estados as $estado) {
-            $options_estados .= '<option value="' . htmlspecialchars($estado) . '">' . htmlspecialchars($estado) . '</option>';
-        }
-    
-        $options_municipios = '';
-        foreach ($datos_municipios as $municipio) {
-            $options_municipios .= '<option value="' . htmlspecialchars($municipio) . '">' . htmlspecialchars($municipio) . '</option>';
-        }
-    
-        $options_asentamientos = '';
-        foreach ($datos_asentamientos as $asentamiento) {
-            $options_asentamientos .= '<option value="' . htmlspecialchars($asentamiento) . '">' . htmlspecialchars($asentamiento) . '</option>';
-        }
-    
-        // Devolver las opciones como un objeto JSON
-        $opciones = array(
-            'estados' => $options_estados,
-            'municipios' => $options_municipios,
-            'asentamientos' => $options_asentamientos
-        );
-    
-        echo json_encode($opciones);
+    $data = json_decode($response, true);
+
+    // Obtener los estados, municipios y asentamientos
+    $estados = array_unique(array_column($data, 'estado'));
+    $municipios = array_unique(array_column($data, 'municipio'));
+    $asentamientos = array_unique(array_column($data, 'asentamiento'));
+
+    // Convertir cada conjunto de opciones a formato JSON
+    $response_json = array(
+        'estados' => $estados,
+        'municipios' => $municipios,
+        'asentamientos' => $asentamientos
+    );
+
+    // Devolver la respuesta JSON
+    echo json_encode($response_json);
     }
 
 } else {
