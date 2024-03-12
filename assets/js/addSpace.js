@@ -20,6 +20,12 @@ function buscarAsentamientos(){
     xhr.onreadystatechange = function(){
 
         if (xhr.readyState === 4 && xhr.status === 200) {
+
+            // Limpiar las opciones existentes en las listas desplegables
+            document.getElementById("estado").innerHTML = '';
+            document.getElementById("ciudad_municipio").innerHTML = '';
+            document.getElementById("asentamiento").innerHTML = '';
+
             var response = JSON.parse(xhr.responseText);
     
             // Llenar el campo de selección de estados
