@@ -19,10 +19,23 @@
                 <input type="text" id="codigoPostal" name="codigoPostal" maxlength="5" required>
                 <button type="srchCP" id="srchCP" name="srchCP">Buscar código postal</button>
             </div>
-            <div class = "contenedor_select">
-               
-                <div id="resultado_cp"></div>
-
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado">
+                    <option value="" selected disabled>Selecciona un estado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ciudad_municipio">Ciudad/Municipio:</label>
+                <select id="ciudad_municipio" name="ciudad_municipio">
+                    <option value="" selected disabled>Selecciona una ciudad/municipio</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="asentamiento">Asentamiento:</label>
+                <select id="asentamiento" name="asentamiento">
+                    <option value="" selected disabled>Selecciona un asentamiento</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="calle">Calle:</label>
