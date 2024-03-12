@@ -36,17 +36,49 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $datos_municipios = array();
         $datos_asentamientos = array();
     
-        // Generar las opciones para los campos de selección
-        $options = array();
-        foreach ($data as $key => $values) {
-            $options[$key] = '';
-            foreach ($values as $value) {
-                $options[$key] .= '<option value="' . htmlspecialchars($value) . '">' . htmlspecialchars($value) . '</option>';
+        // Obtener los estados, municipios y asentamientos
+        foreach ($data as $row) {
+            $estado = $row['estado'];
+            $municipio = $row['municipio'];
+            $asentamiento = $row['asentamiento'];
+    
+            if (!in_array($estado, $datos_estados)) {
+                $datos_estados[] = $estado;
+            }
+    
+            if (!in_array($municipio, $datos_municipios)) {
+                $datos_municipios[] = $municipio;
+            }
+    
+            if (!in_array($asentamiento, $datos_asentamientos)) {
+                $datos_asentamientos[] = $asentamiento;
             }
         }
     
-        // Convertir el array a formato JSON y devolverlo
-        echo json_encode($options);
+        // Generar las opciones para los campos de selección
+        $options_estados = '';
+        foreach ($datos_estados as $estado) {
+            $options_estados .= '<option value="' . htmlspecialchars($estado) . '">' . htmlspecialchars($estado) . '</option>';
+        }
+    
+        $options_municipios = '';
+        foreach ($datos_municipios as $municipio) {
+            $options_municipios .= '<option value="' . htmlspecialchars($municipio) . '">' . htmlspecialchars($municipio) . '</option>';
+        }
+    
+        $options_asentamientos = '';
+        foreach ($datos_asentamientos as $asentamiento) {
+            $options_asentamientos .= '<option value="' . htmlspecialchars($asentamiento) . '">' . htmlspecialchars($asentamiento) . '</option>';
+        }
+    
+        // Devolver las opciones como un objeto JSON
+        $opciones = array(
+            'estados' => $options_estados,
+            'municipios' => $options_municipios,
+            'asentamientos' => $options_asentamientos
+        );
+    
+        echo json_encode($opciones);
     }
 
 } else {
