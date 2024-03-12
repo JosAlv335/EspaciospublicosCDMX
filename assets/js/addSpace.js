@@ -1,19 +1,13 @@
-document.addEventListener('DOMContentLoaded',function(){
+document.getElementById('srchCP').addEventListener('click',function(){
 
-    document.getElementById('srchCP').addEventListener('click',function(){
+    var codigoPostal = getElementById('codigoPostal').value;
+    if(codigoPostal.length == 0){
+        document.getElementById('codigoPostal').innerHTML = "Ingrese Codigo Postal..";
+    }else if(codigoPostal.length <= 5){
+        buscarAsentamientos();
+    }
 
-        var codigoPostal = getElementById('codigoPostal').value;
-        if(codigoPostal.length == 0){
-            document.getElementById('codigoPostal').innerHTML = "Ingrese Codigo Postal..";
-        }else if(codigoPostal.length <= 5){
-            buscarAsentamientos();
-        }
-    
-    });
-
-})
-
-
+});
 
 function buscarAsentamientos(){
 
