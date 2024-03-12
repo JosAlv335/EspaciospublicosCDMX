@@ -32,9 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $data = json_decode($response, true);
 
     // Obtener los estados, municipios y asentamientos
-    $estados = array_unique(array_column($data, 'estado'));
-    $municipios = array_unique(array_column($data, 'municipio'));
-    $asentamientos = array_unique(array_column($data, 'asentamiento'));
+    $estados = array_unique(array_column($data, 'Estado'));
+    $municipios = array_unique(array_column($data, 'Municipio'));
+    $asentamientos = array_unique(array_column($data, 'Asentamiento'));
 
     // Convertir cada conjunto de opciones a formato JSON
     $response_json = array(
