@@ -38,9 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
         // Obtener los estados, municipios y asentamientos
         foreach ($data as $row) {
-            $estado = $row['estado'];
-            $municipio = $row['municipio'];
-            $asentamiento = $row['asentamiento'];
+            $estado = $row['Estado'];
+            $municipio = $row['Municipio'];
+            $asentamiento = $row['Asentamiento'];
     
             if (!in_array($estado, $datos_estados)) {
                 $datos_estados[] = $estado;
