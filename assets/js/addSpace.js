@@ -44,17 +44,26 @@ function buscarAsentamientos(){
             var asentamientoSelect = document.getElementById('asentamiento');
             if (Array.isArray(response.asentamientos)) {
                 response.asentamientos.forEach(function(asentamiento) {
-                    response.asentamientos.forEach(function(asentamiento) {
+                    var option = document.createElement('option');
+                    option.value = asentamiento;
+                    option.text = asentamiento;
+                    asentamientoSelect.appendChild(option);
+                });
+            } else if (typeof response.asentamientos === 'object') {
+                for (var key in response.asentamientos) {
+                    if (response.asentamientos.hasOwnProperty(key)) {
+                        var asentamiento = response.asentamientos[key];
                         var option = document.createElement('option');
                         option.value = asentamiento;
                         option.text = asentamiento;
                         asentamientoSelect.appendChild(option);
-                    });
-                });
+                    }
+                }
             } else {
-                // Manejar el caso en el que response.asentamientos no es un array
+                // Manejar el caso en el que response.asentamientos no es ni un array ni un objeto
                 console.error('Los asentamientos no están en un formato válido:', response.asentamientos);
             }
+            
         }
 
     }
