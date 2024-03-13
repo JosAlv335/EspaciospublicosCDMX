@@ -1,57 +1,54 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // URL de la API de Supabase
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // URL de la API de Supabase para insertar en espacios_publicos
     $supabaseUrl = $_ENV["REST_URL"] . "/rest/v1/espacios_publicos";
+
     // Clave pública de la API de Supabase
     $supabaseKey = getenv("REST_PUBLIC_KEY");
 
-    // Recibir el nombre de la búsqueda y eliminar espacios
-    $nombre_busqueda = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
+    // Recoger los datos enviados desde el formulario
+    $datos = [
+        "nombre" => $_POST["nombre"] ?? "",
+        "estado" => $_POST["estado"] ?? "",
+        "municipio_delegacion" => $_POST["ciudad_municipio"] ?? "",
+        "asentamiento" => $_POST["asentamiento"] ?? "",
+        "calle" => $_POST["calle"] ?? "",
+        "entre_calles" => $_POST["entCalles"] ?? "",
+        "num_ext" => $_POST["numExt"] ?? "",
+        "num_int" => $_POST["numInt"] ?? "",
+        "codigo_postal" => $_POST["codigoPostal"] ?? "",
+        "horario_inicio" => $_POST["horario-inicio"] ?? "",
+        "horario_fin" => $_POST["horario-fin"] ?? "",
 
-    // Configurar la solicitud HTTP a Supabase
-    $url = $supabaseUrl . '?nombre=like.*' . urlencode($nombre_busqueda) . '*';
+        "tipo_espacio" => $_POST["tipo-espacio"] ?? ""
+    ];
+
+    // Convertir los datos a JSON
+    $data_json = json_encode($datos);
+
+    // Configurar la solicitud HTTP a Supabase para insertar datos
     $options = array(
         'http' => array(
-            'header' => "Content-Type: application/json\r\n" . "apikey: $supabaseKey\r\n",
-            'method' => 'GET'
-        )
+            'header' => "Content-Type: application/json\r\n" .
+                        "apikey: $supabaseKey\r\n" .
+                        "Prefer: return=representation\r\n", // Header para que Supabase devuelva los datos de la fila insertada
+            'method' => 'POST',
+            'content' => $data_json, // Datos a insertar
+        ),
     );
 
     // Realizar la solicitud HTTP
     $context = stream_context_create($options);
-    $response = file_get_contents($url, false, $context);
+    $response = file_get_contents($supabaseUrl, false, $context);
 
     // Verificar si la solicitud fue exitosa
     if ($response === FALSE) {
-        echo "$supabaseUrl - URL";
-        echo "$supabaseKey - Key";
-        echo "$options - options";
         echo "Error al realizar la solicitud HTTP.";
     } else {
-        // Decodificar la respuesta JSON
-        $data = json_decode($response, true);
-
-        // Mostrar resultados en una tabla si se encuentran registros
-        if (!empty($data)) {
-            echo "<table>";
-            echo "<tr>";
-            foreach ($data[0] as $key => $value) {
-                echo "<th>$key</th>"; // Mostrar el nombre de la columna como encabezado
-            }
-            echo "</tr>";
-            foreach ($data as $row) {
-                echo "<tr>";
-                foreach ($row as $value) {
-                    echo "<td>$value</td>"; // Mostrar el valor de la celda
-                }
-                echo "</tr>";
-            }
-            echo "</table>";
-        } else {
-            echo "No se encontraron resultados.";
-        }
+        // La respuesta incluye la fila insertada, la mostramos (o procesamos según sea necesario)
+        echo $response;
     }
 } else {
-    echo "<h2>No matches found...</h2>";
+    echo "<h2>Método de solicitud no soportado.</h2>";
 }
 ?>
