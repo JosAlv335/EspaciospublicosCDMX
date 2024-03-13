@@ -21,6 +21,7 @@ main {
 
 .form-group label {
     display: block;
+    padding-top: 10px;
     margin-bottom: 5px;
 }
 
@@ -96,7 +97,117 @@ table tr:nth-child(even) {
     color: white;
 }
 
+.cancel-button {
+    background-color: rgb(71, 190, 240);
+    color: white;
+}
+.cancel-button:hover {
+    background-color: rgb(7, 128, 180);
+}
+
 .contenedor-tabla {
     height: 300px;
     overflow: auto;
 }
+
+/******************************ESTILO DE VENTANA EMERGENTE**********************************/
+/**********************CUADRO EMERGENTE***********************/
+/* Estilo del fondo oscurecido */
+.cuadro-emergente {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1; /* Encima de todo */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    overflow: auto; /* Habilita scroll si es necesario */
+    background-color: rgb(0,0,0); /* Color de fondo */
+    background-color: rgba(0,0,0,0.4); /* Negro con opacidad */
+    /* Animación */
+    opacity: 0; /* Inicialmente transparente */
+    transition: opacity 0.5s ease; /* Transición suave */
+}
+
+/* Estilo del contenido del cuadro emergente */
+.contenido-emergente {
+    text-align: center;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% desde la parte superior y centrado horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 20px;
+    width: 80%; /* Ancho del contenido */
+    max-width: 450px; /* Máximo ancho */
+    /* Animación */
+    transform: scale(0.7); /* Inicia más pequeño */
+    transition: transform 0.5s ease; /* Transición suave */
+}
+
+/* Botones dentro del cuadro emergente */
+.contenido-emergente button {
+
+    background-color: #5d67ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    outline: none;
+}
+
+.contenido-emergente button:hover{
+    background-color: #4350fe;
+}
+
+.contenido-emergente h2{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+/**************************BOTON ELIMINAR**************************/
+button[id=solicitar-Eliminacion]:hover{
+    background-color: #a11f1f;
+}
+
+
+/* Botones dentro del cuadro emergente */
+button[id=solicitar-Eliminacion] {
+
+    background-color: #fd3232;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    outline: none;
+}
+
+/************************FORMULARIO PARA BORRAR**********************/
+form[id=deleteForm]{
+    display: inline-flex;
+    align-items: center;
+}
+
+.id-delete-input input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.id-delete-input, .id-delete-button{
+    padding-left: 10px;
+}
+
