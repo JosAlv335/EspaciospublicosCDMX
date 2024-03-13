@@ -22,6 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // Verificar si la solicitud fue exitosa
     if ($response === FALSE) {
+        if (isset($http_response_header)) {
+            echo "Headers de respuesta: \n";
+            print_r($http_response_header);
+        }
         echo "Error al realizar la solicitud HTTP.";
     } else {
         // La respuesta incluye los detalles de la operación de eliminación, la mostramos (o procesamos según sea necesario)
