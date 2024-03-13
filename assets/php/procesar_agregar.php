@@ -48,7 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         echo "Error al realizar la solicitud HTTP.";
     } else {
-        echo $response;
+        //echo $response;
+        echo "Inserción exitosa";
     }
 } else {
     echo "<h2>Método de solicitud no soportado.</h2>";
