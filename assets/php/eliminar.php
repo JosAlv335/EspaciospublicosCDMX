@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } else {
         // La respuesta incluye los detalles de la operación de eliminación, la mostramos (o procesamos según sea necesario)
         echo $response;
+        echo "Eliminación exitosa!";
     }
 } else {
     echo "<h2>Método de solicitud no soportado.</h2>";
