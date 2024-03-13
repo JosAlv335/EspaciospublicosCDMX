@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     //Se obtiene el ID del registro a eliminar
-    $idRegistroAEliminar = $_POST['id']; 
+    $idRegistroAEliminar = $_GET['id']; 
     $supabaseUrl = $_ENV["REST_URL"] . "/rest/v1/espacios_publicos?id=eq." . $idRegistroAEliminar;
 
     // Clave pública de la API de Supabase
