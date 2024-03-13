@@ -39,13 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Realizar la solicitud HTTP
     $context = stream_context_create($options);
-    $response = file_get_contents($supabaseUrl, false, $context);
+    $response = @file_get_contents($supabaseUrl, false, $context);
 
-    // Verificar si la solicitud fue exitosa
     if ($response === FALSE) {
+        if (isset($http_response_header)) {
+            echo "Headers de respuesta: \n";
+            print_r($http_response_header);
+        }
         echo "Error al realizar la solicitud HTTP.";
     } else {
-        // La respuesta incluye la fila insertada, la mostramos (o procesamos según sea necesario)
         echo $response;
     }
 } else {
