@@ -136,9 +136,10 @@
             var xhr = new XMLHttpRequest();
             xhr.open('GET','/assets/php/eliminar.php?id=' + encodeURIComponent(id_del),true);
             xhr.setRequestHeader('Content-Type','application/x-www-formurlencoded');
+            console.log("Eliminar");
             xhr.onreadystatechange = function(){
                 if(xhr.readyState === 4 && xhr.status === 200){
-                    document.getElementById('del-response-cont').innerHTML = hxr.responseText;
+                    document.getElementById('del-response-cont').innerHTML = xhr.responseText;
                 }
             };
 
