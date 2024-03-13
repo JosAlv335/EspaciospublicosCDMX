@@ -107,7 +107,7 @@
             </div>
             
             <div class ="cuadro-emergente" id="confirmacion">
-                <div class="button-group">
+                <div class="contenido-emergente">
                     <h2>Confirmacion</h2>
                     <p>¿Está seguro de querer agregar el registro?</p>
                     <button type="button" id="regresarForm" class="cancel-button">Cancelar</button>
@@ -134,18 +134,29 @@
         // Cuando el usuario hace clic en el botón, abrir el cuadro emergente
         btnMostrar.onclick = function() {
             cuadroEmergente.style.display = "block";
+            setTimeout(() => { // Esto permite que la transición CSS se aplique correctamente
+                cuadroEmergente.style.opacity = "1";
+                cuadroEmergente.querySelector('.contenido-emergente').style.transform = "scale(1)";
+            }, 10);
         }
 
         // Cuando el usuario hace clic en "Cancelar", cierra el cuadro emergente
         btnCancelar.onclick = function() {
-            cuadroEmergente.style.display = "none";
+            cuadroEmergente.style.opacity = "0";
+            cuadroEmergente.querySelector('.contenido-emergente').style.transform = "scale(0.7)";
+            setTimeout(() => {
+                cuadroEmergente.style.display = "none";
+            }, 500); // Espera hasta que la animación termine
         }
 
         // Cuando el usuario hace clic en "Aceptar", realiza una acción y cierra el cuadro
         btnAceptar.onclick = function() {
             // Aquí puedes agregar la lógica para manejar la "aceptación"
-            console.log("Datos cargados correctamente.");
-            cuadroEmergente.style.display = "none";
+            cuadroEmergente.style.opacity = "0";
+            cuadroEmergente.querySelector('.contenido-emergente').style.transform = "scale(0.7)";
+            setTimeout(() => {
+                cuadroEmergente.style.display = "none";
+            }, 500); // Espera hasta que la animación termine
         }
 
         // También puedes cerrar el cuadro emergente si el usuario hace clic fuera de él

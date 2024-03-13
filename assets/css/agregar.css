@@ -101,7 +101,7 @@ main {
 }
 
 .entre-calles{
-    width: 65%;
+    width: 55%;
 }
 
 .numExt, .numInt{
@@ -205,16 +205,24 @@ option:hover{
     overflow: auto; /* Habilita scroll si es necesario */
     background-color: rgb(0,0,0); /* Color de fondo */
     background-color: rgba(0,0,0,0.4); /* Negro con opacidad */
+    /* Animación */
+    opacity: 0; /* Inicialmente transparente */
+    transition: opacity 0.5s ease; /* Transición suave */
 }
 
 /* Estilo del contenido del cuadro emergente */
 .contenido-emergente {
+    text-align: center;
     background-color: #fefefe;
     margin: 15% auto; /* 15% desde la parte superior y centrado horizontalmente */
     padding: 20px;
     border: 1px solid #888;
+    border-radius: 20px;
     width: 80%; /* Ancho del contenido */
     max-width: 450px; /* Máximo ancho */
+    /* Animación */
+    transform: scale(0.7); /* Inicia más pequeño */
+    transition: transform 0.5s ease; /* Transición suave */
 }
 
 /* Botones dentro del cuadro emergente */
@@ -224,4 +232,10 @@ option:hover{
     margin: 10px;
     border: none;
     outline: none;
+}
+
+.contenido-emergente h2{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
 }
