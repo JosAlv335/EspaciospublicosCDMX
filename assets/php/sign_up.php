@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error al registrar el usuario, intente de nuevo más tarde.";
     } else {
         //echo $response;
-        echo "Inserción exitosa";
+        echo "Registro Exitoso! Por favor inicie sesión";
     }
 } else {
     echo "<h2>Método de solicitud no soportado.</h2>";
