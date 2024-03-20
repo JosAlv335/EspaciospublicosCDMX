@@ -32,10 +32,19 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>--> 
                 <p>o usa tu e-mail para registrarte</p>
-                <form action="assets/php/procesar_login.php" name="login" method="post" class="form">
+                <div id="mensaje_sign_up"></div> <!--Recibirá el mensaje de respuesta del registro-->
+                <form id="sign-up-form" name="sign_up" method="post" class="form">
                     <label>
                         <i class='bx bx-user'></i>
-                        <input type = "text" name="nombre" placeholder="Nombre Completo">
+                        <input type = "text" name="nombre" placeholder="Nombre(s)">
+                    </label>
+                    <label>
+                        <i class='bx bx-user'></i>
+                        <input type = "text" name="apellido1" placeholder="Primer Apellido...">
+                    </label>
+                    <label>
+                        <i class='bx bx-user'></i>
+                        <input type = "text" name="apellido2" placeholder="Segundo Apellido...">
                     </label>
                     <label>
                         <i class='bx bx-envelope'></i>
@@ -43,7 +52,7 @@
                     </label>
                     <label>
                         <i class='bx bx-lock-alt'></i>
-                        <input type="password" name="contraseña" placeholder="Contraseña">
+                        <input type="password" name="password" placeholder="Contraseña">
                     </label>
                     <button type="submit" name="registro">Registrarme</button>
                     <button type="reset" name="reset">Reestablecer</button>
@@ -89,6 +98,24 @@
     </div>
 
     <script src="assets/js/login.js"></script>
+    <script>
+        document.getElementById("sign-up-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar el envío del formulario por defecto
+
+            var formData = new FormData(this); // Obtener los datos del formulario
+
+            var xhr = new XMLHttpRequest(); // Crear un objeto XMLHttpRequest
+            xhr.open("POST", "assets/php/sign_up.php", true); // Establecer la solicitud POST a procesar_agregar.php
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("mensaje_sign_up").innerHTML = xhr.responseText; // Mostrar la respuesta del servidor en el elemento "mensaje"
+                }
+            };
+
+            xhr.send(formData); // Enviar los datos del formulario al servidor
+        });
+    </script>
 
 </body>
 
