@@ -1,10 +1,10 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // URL de la API de Supabase para insertar en espacios_publicos
-    $supabaseUrl = "https://zrwtmvescjmkdenhdaqh.supabase.co" . "/rest/v1/users";
+    $supabaseUrl = $_ENV["REST_URL"] . "/rest/v1/users";
 
     // Clave pública de la API de Supabase
-    $supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyd3RtdmVzY2pta2RlbmhkYXFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk2MDA2ODEsImV4cCI6MjAyNTE3NjY4MX0.nWS7r3cCN_xhpTehJk71wQ19C7JsBuhF66MamPHpNWs";
+    $supabaseKey = getenv("REST_PUBLIC_KEY");
 
     // Recoger los datos enviados desde el formulario
     $datos = [
