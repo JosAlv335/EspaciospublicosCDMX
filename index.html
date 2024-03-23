@@ -82,14 +82,15 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>
                 <p>o iniciar sesión con una cuenta</p>
+                <div id="sign-in-error"></div>
                 <form action="assets/php/procesar_login.php" method="post" class="form">
                     <label>
                         <i class='bx bx-envelope'></i>
-                        <input type="email" name="correo" placeholder="Correo Electrónico">
+                        <input type="email" id ="sign-in-mail" name="correo" placeholder="Correo Electrónico">
                     </label>
                     <label>
                         <i class='bx bx-lock-alt'></i>
-                        <input type="password" name="contraseña" placeholder="Contraseña">
+                        <input type="password" id="sign-in-password" name="contraseña" placeholder="Contraseña">
                     </label>
                     <button type="submit" name="login">Iniciar Sesión</button>
                 </form>
