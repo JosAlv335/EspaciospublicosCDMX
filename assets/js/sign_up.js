@@ -2,19 +2,21 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(process.env.REST_URL, process.env.REST_PUBLIC_KEY)
 
+document.addEventListener('DOMContentLoaded',function(){
+    // Ejemplo de cómo podrías capturar el evento de submit de un formulario
+    document.getElementById('sign-up-form').addEventListener('submit', function(e) {
+        e.preventDefault() // Evita el envío tradicional del formulario
+    
+        // Obtiene los valores del formulario
+        const email = document.getElementById('sign-up-mail').value
+        const password = document.getElementById('sign-up-password').value
+    
+        // Llama a la función de inicio de sesión
+        signIn(email, password)
+    })
+})
 
 
-// Ejemplo de cómo podrías capturar el evento de submit de un formulario
-document.getElementById('sign-up-form').addEventListener('submit', function(e) {
-    e.preventDefault() // Evita el envío tradicional del formulario
-  
-    // Obtiene los valores del formulario
-    const email = document.getElementById('sign-up-mail').value
-    const password = document.getElementById('sign-up-password').value
-  
-    // Llama a la función de inicio de sesión
-    signIn(email, password)
-  })
   
 
 async function signIn(email, password) {
@@ -35,13 +37,13 @@ async function signIn(email, password) {
         .insert({
             nombre: document.getElementById('sign-up-name').value,
             apellido1: document.getElementById('sign-up-apellido1').value,
-            apellido12: document.getElementById('sign-up-apellido2').value,
+            apellido2: document.getElementById('sign-up-apellido2').value,
             correo: email,
             contrasena: password
         })
         if(insertError){
-            console.error('Error en el registro de usuario:', error.message);
-            document.getElementById('mensaje_sign_up').innerText = error.message;
+            console.error('Error en el registro de usuario:', insertError.message);
+            document.getElementById('mensaje_sign_up').innerText = insertError.message;
         }else{
             console.log('Insercion de datos exitosa')
         }
