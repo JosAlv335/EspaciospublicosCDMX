@@ -5,7 +5,7 @@ const supabase = createClient(process.env.REST_URL, process.env.REST_PUBLIC_KEY)
 
 
 // Ejemplo de cómo podrías capturar el evento de submit de un formulario
-document.getElementById('miFormularioDeInicioDeSesion').addEventListener('submit', function(e) {
+document.getElementById('sign-in-form').addEventListener('submit', function(e) {
     e.preventDefault() // Evita el envío tradicional del formulario
   
     // Obtiene los valores del formulario
