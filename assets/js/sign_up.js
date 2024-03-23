@@ -1,4 +1,4 @@
-const supabase = createClient(process.env.REST_URL, process.env.REST_PUBLIC_KEY)
+const supabase = supabase.createClient(process.env.REST_URL, process.env.REST_PUBLIC_KEY)
 
 document.addEventListener('DOMContentLoaded',function(){
     // Ejemplo de cómo podrías capturar el evento de submit de un formulario
