@@ -1,56 +1,61 @@
 <?php
-$enlace = pg_connect("user=postgres.zrwtmvescjmkdenhdaqh password=[YOUR-PASSWORD] host=aws-0-us-west-1.pooler.supabase.com port=5432 dbname=postgres");
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // URL de la API de Supabase para insertar en espacios_publicos
+    $supabaseUrl = $_ENV["REST_URL"] . "/auth/v1/token";
 
-//Detecta si hubo algun error
-if (!$enlace) {
-    die("Error al conectar: " . pg_last_error());
-}
+    // Clave pública de la API de Supabase
+    $supabaseKey = getenv("REST_PUBLIC_KEY");
 
-//Busca el correo si es que existe para un nuevo registro
-if(isset($_POST["registro"])){
-    $nombre = $_POST['nombre'];
-    $correo = $_POST['correo'];
-    $contraseña = $_POST['contraseña'];
+    // Recoger los datos enviados desde el formulario
+    $datos = [
+        "nombre" => $_POST["nombre"] ?? "",
+        "apellido1" => $_POST["apellido1"] ?? "",
+        "apellido2" => $_POST["apellido2"] ?? "",
+        "correo" => $_POST["correo"] ?? "",
+        "contrasena" => $_POST["password"] ?? ""
+    ];
 
-    // Consulta para verificar si el correo ya existe
-    $consultaCorreo = "SELECT correo FROM users WHERE correo='$correo'";
-    $resultado = pg_query($enlace, $consultaCorreo);
+    // Convertir los datos a JSON
+    $data_json = json_encode($datos);
 
-    // Verificar si se encontraron resultados (correo ya existe)
-    if(pg_num_rows($resultado) > 0) {
-        echo "El correo electrónico ya está registrado. Por favor, utiliza otro correo.";
-    } else {
-        // El correo no existe, insertar los datos en la base de datos
-        $insertarDatos = "INSERT INTO users (nombre, correo, contraseña) VALUES ('$nombre', '$correo', '$contraseña')";
-        $ejecutarInsertar = pg_query($enlace, $insertarDatos);
+    $curl = curl_init($supabaseUrl);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+        'email'=> $_POST['email'],
+        'password'=> $_POST['password'],
+        'grant_type' => 'password'
+    ]));
 
-        // Verificar si se pudo insertar correctamente
-        if($ejecutarInsertar) {
-            // Redirigir a index.html si se insertó correctamente
-            echo "<p style='color: green;'>¡Proceso completado exitosamente!</p>";
-            header("Location: /paginas/index.html");
-            exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
-        } else {
-            echo "<p style='color: red;'>¡Error! El proceso ha fallado.</p>";
+    //Realizar la solicitud y decodificar la respuesta
+
+    $response = curl_exec($curl);
+    $responseData = json_decode($response,true);
+
+    if(isset($responseData["access_token"])){
+
+        //Inicio de sesión exitoso
+        $accessToken = $responseData["access_token"];
+
+        if(isset($accessToken)){
+
+            if(session_status() === PHP_SESSION_NONE){
+                session_start();
+            }
+
+            //Almacenar el token en una variable de sesión:
+            $_SESSION['user_token'] = $accessToken;
+
+            //Redirigir a la página principal
+            header("Location: /paginas/tabla.html");
+            exit;
         }
+
+    }else{
+        echo "Inicio de sesión erróneo";
     }
-}
 
-if(isset($_POST["login"])){
-    $correo = $_POST['correo'];
-    $contraseña = $_POST['contraseña'];
-
-    // Consulta para verificar si el correo y la contraseña coinciden
-    $consultaUsuario = "SELECT * FROM users WHERE correo='$correo' AND contraseña='$contraseña'";
-    $resultado = pg_query($enlace, $consultaUsuario);
-
-    // Verificar si se encontró un usuario con el correo y contraseña proporcionados
-    if(pg_num_rows($resultado) == 1) {
-        // Redirigir a index.html si el inicio de sesión fue exitoso
-        header("Location: /paginas/tabla.html");
-        exit(); // Terminar el script para evitar que se siga ejecutando código innecesario
-    } else {
-        echo "Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.";
-    }
+} else {
+    echo "<h2>Método de solicitud no soportado.</h2>";
 }
 ?>
