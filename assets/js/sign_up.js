@@ -6,20 +6,21 @@ document.addEventListener('DOMContentLoaded',function(){
     // Ejemplo de cómo podrías capturar el evento de submit de un formulario
     document.getElementById('sign-up-form').addEventListener('submit', function(e) {
         e.preventDefault() // Evita el envío tradicional del formulario
+        console.log("Evento capturado");
     
         // Obtiene los valores del formulario
         const email = document.getElementById('sign-up-mail').value
         const password = document.getElementById('sign-up-password').value
     
         // Llama a la función de inicio de sesión
-        signIn(email, password)
+        signUp(email, password)
     })
 })
 
 
   
 
-async function signIn(email, password) {
+async function signUp(email, password) {
     const { user, session, error } = await supabase.auth.signUp({
       email: email,
       password: password,
