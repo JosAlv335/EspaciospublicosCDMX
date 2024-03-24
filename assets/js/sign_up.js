@@ -1,4 +1,4 @@
-import { createClient } from '../../node_modules/@supabase/supabase-js/'
+import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(process.env.REST_URL, process.env.REST_PUBLIC_KEY)
 
