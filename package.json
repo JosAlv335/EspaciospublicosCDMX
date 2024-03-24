@@ -1,5 +1,24 @@
 {
   "dependencies": {
     "@supabase/supabase-js": "^2.39.8"
-  }
+  },
+  "name": "espaciospublicoscdmx",
+  "description": "Proyecto de Bases de Datos 24/1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JosAlv335/EspaciospublicosCDMX.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JosAlv335/EspaciospublicosCDMX/issues"
+  },
+  "homepage": "https://github.com/JosAlv335/EspaciospublicosCDMX#readme"
 }
