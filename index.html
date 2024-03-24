@@ -100,10 +100,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script >
-        const { createClient } = clientSupabase
+        const { createClient } = supabase
 
-        const supabase = createClient(process.env.REST_URL, process.env.REST_PUBLIC_KEY)
-        console.log('Supabase Insance: ',supabase)
+        const _supabase = createClient(process.env.REST_URL, process.env.REST_PUBLIC_KEY)
+        console.log('Supabase Insance: ',_supabase)
 
 
         // Ejemplo de cómo podrías capturar el evento de submit de un formulario
@@ -120,7 +120,7 @@
         
 
         async function signIn(email, password) {
-            const { user, session, error } = await supabase.auth.signIn({
+            const { user, session, error } = await _supabase.auth.signIn({
             email: email,
             password: password,
             })
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded',function(){
   
 
 async function signUp(email, password) {
-    const { user, session, error } = await supabase.auth.signUp({
+    const { user, session, error } = await _supabase.auth.signUp({
       email: email,
       password: password,
     })
@@ -173,7 +173,7 @@ async function signUp(email, password) {
     } else {
         console.log('Registro exitoso', user, session)
 
-        const { insertError } = await supabase
+        const { insertError } = await _supabase
         .from('users')
         .insert({
             nombre: document.getElementById('sign-up-name').value,
