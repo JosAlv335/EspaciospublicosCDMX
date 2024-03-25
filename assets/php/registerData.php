@@ -1,12 +1,10 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // URL de la API de Supabase para insertar en espacios_publicos
-    $supabaseUrl = $_ENV["REST_URL"] . "/auth/v1/signup";
+    $usersDataInsert = $_ENV["REST_URL"] . "/rest/v1/users";
 
     // Clave pública de la API de Supabase
     $supabaseKey = getenv("REST_PUBLIC_KEY");
-
-    
 
     // Recoger los datos enviados desde el formulario
     $datos = [
@@ -27,27 +25,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         "apikey: $supabaseKey\r\n" .
                         "Prefer: return=representation\r\n", // Header para que Supabase devuelva los datos de la fila insertada
             'method' => 'POST',
-            'content' => json_encode([
-                            'email'=> $_POST['correo'],
-                            'password'=> $_POST['password'],
-                        ]), // Datos a insertar
+            'content' => $data_json, // Datos a insertar
         ),
     );
 
     // Realizar la solicitud HTTP
-    $context = stream_context_create($options);
-    $response = @file_get_contents($supabaseUrl, false, $context);
+    $usersContext = stream_context_create($options);
+    $usersresponse = file_get_contents($usersDataInsert, false, $usersContext);
 
-    if ($response === FALSE) {
-        if (isset($http_response_header)) {
-            echo "Headers de respuesta: \n";
-            print_r($http_response_header);
-        }
-        echo "Error al registrar el usuario, intente de nuevo más tarde.";
+    if ($usersresponse !== FALSE) {
+        // La solicitud fue exitosa
+        echo "Registro exitoso. Por favor inicie sesión.";
     } else {
-        //echo $response;
-        echo "Registro Exitoso! Por favor inicie sesión";
-        include 'registerData.php';
+        // La solicitud falló, mostrar mensaje de error
+        echo "Error al registrar los datos del usuario.";
     }
 } else {
     echo "<h2>Método de solicitud no soportado.</h2>";

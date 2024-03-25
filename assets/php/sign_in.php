@@ -1,59 +1,60 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // URL de la API de Supabase para insertar en espacios_publicos
-    $supabaseUrl = $_ENV["REST_URL"] . "/auth/v1/token";
+    $supabaseUrl = $_ENV["REST_URL"] . "/auth/v1/token?grant_type=password";
 
     // Clave pública de la API de Supabase
     $supabaseKey = getenv("REST_PUBLIC_KEY");
-
-    // Recoger los datos enviados desde el formulario
-    $datos = [
-        "nombre" => $_POST["nombre"] ?? "",
-        "apellido1" => $_POST["apellido1"] ?? "",
-        "apellido2" => $_POST["apellido2"] ?? "",
-        "correo" => $_POST["correo"] ?? "",
-        "contrasena" => $_POST["password"] ?? ""
-    ];
-
-    // Convertir los datos a JSON
-    $data_json = json_encode($datos);
 
     $curl = curl_init($supabaseUrl);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
-        'email'=> $_POST['email'],
+        'email'=> $_POST['correo'],
         'password'=> $_POST['password'],
-        'grant_type' => 'password'
     ]));
 
     //Realizar la solicitud y decodificar la respuesta
 
     $response = curl_exec($curl);
-    $responseData = json_decode($response,true);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-    if(isset($responseData["access_token"])){
+    if ($httpCode === 200) {
+        // La solicitud fue exitosa, procede a decodificar la respuesta JSON
+        $responseData = json_decode($response,true);
 
-        //Inicio de sesión exitoso
-        $accessToken = $responseData["access_token"];
+        if(isset($responseData["access_token"])){
 
-        if(isset($accessToken)){
+            //Inicio de sesión exitoso
+            $accessToken = $responseData["access_token"];
 
-            if(session_status() === PHP_SESSION_NONE){
-                session_start();
+            if(isset($accessToken)){
+
+                if(session_status() === PHP_SESSION_NONE){
+                    session_start();
+                }
+
+                if (isset($_SESSION['user_token'])) {
+                    // El usuario tiene un token de sesión válido, mostrar contenido sensible
+                    header("Location: /paginas/tabla.html");
+                } else {
+                    // El usuario no tiene un token de sesión válido, redirigir al inicio de sesión
+                    header("Location: /index.html");
+                    exit;
+                }
             }
 
-            //Almacenar el token en una variable de sesión:
-            $_SESSION['user_token'] = $accessToken;
-
-            //Redirigir a la página principal
-            header("Location: /paginas/tabla.html");
-            exit;
+        }else{
+            echo "Error: No se recibió un token de acceso en la respuesta.";
         }
 
-    }else{
-        echo "Inicio de sesión erróneo";
+    } else {
+        // Manejar el error de solicitud HTTP
+        echo "Error en la solicitud HTTP: " . $httpCode;
+        echo "Error CURL: " . curl_error($curl);
     }
+
+    
 
 } else {
     echo "<h2>Método de solicitud no soportado.</h2>";
