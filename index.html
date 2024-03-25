@@ -82,7 +82,7 @@
                     <i class='bx bxl-linkedin-square'></i>
                 </div>
                 <p>o iniciar sesión con una cuenta</p>
-                <div id="sign-in-error"></div>
+                <div id="mensaje_sign_in"></div>
                 <form id = 'sign-in-form' method="post" class="form">
                     <label>
                         <i class='bx bx-envelope'></i>
@@ -90,7 +90,7 @@
                     </label>
                     <label>
                         <i class='bx bx-lock-alt'></i>
-                        <input type="password" id="sign-in-password" name="contraseña" placeholder="Contraseña">
+                        <input type="password" id="sign-in-password" name="password" placeholder="Contraseña">
                     </label>
                     <button type="submit" name="login">Iniciar Sesión</button>
                 </form>
@@ -98,6 +98,7 @@
         </div>
     </div>
     <script src="assets/js/login.js"></script>
+    <!--SCRIPT PARA REGISTRARSE-->
     <script>
         document.getElementById("sign-up-form").addEventListener("submit", function(event) {
             event.preventDefault(); // Evitar el envío del formulario por defecto
@@ -110,6 +111,25 @@
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     document.getElementById("mensaje_sign_up").innerHTML = xhr.responseText; // Mostrar la respuesta del servidor en el elemento "mensaje"
+                }
+            };
+
+            xhr.send(formData); // Enviar los datos del formulario al servidor
+        });
+    </script>
+    <!--SCRIPT PARA INICIAR SESIÓN-->
+    <script>
+        document.getElementById("sign-in-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar el envío del formulario por defecto
+
+            var formData = new FormData(this); // Obtener los datos del formulario
+
+            var xhr = new XMLHttpRequest(); // Crear un objeto XMLHttpRequest
+            xhr.open("POST", "assets/php/sign_in.php", true); // Establecer la solicitud POST a procesar_agregar.php
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("mensaje_sign_in").innerHTML = xhr.responseText; // Mostrar la respuesta del servidor en el elemento "mensaje"
                 }
             };
 
