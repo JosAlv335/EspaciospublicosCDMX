@@ -3,7 +3,6 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
-    
 }
 
 header {
@@ -21,7 +20,6 @@ main {
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 5px;
 }
 
@@ -55,3 +53,28 @@ main {
     cursor: pointer;
 }
 
+/* Estilos adicionales específicos para el formulario de actualización */
+
+/* Estilo para el contenedor del mensaje de éxito o error */
+#mensaje {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo para el título del formulario */
+header h1 {
+    margin-bottom: 20px;
+}
+
+/* Estilo para los botones dentro del grupo de botones */
+.button-group button {
+    flex-basis: 48%; /* Hace que los botones ocupen casi el mismo ancho */
+}
+
+/* Estilo para los botones dentro del grupo de botones en dispositivos móviles */
+@media (max-width: 600px) {
+    .button-group button {
+        flex-basis: 100%; /* En dispositivos móviles, los botones ocupan todo el ancho */
+        margin-bottom: 10px; /* Agrega un espacio entre los botones */
+    }
+}
