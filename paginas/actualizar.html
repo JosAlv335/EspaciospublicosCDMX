@@ -3,48 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizar</title>
+    <title>Actualizar Datos</title>
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/search.css' rel='stylesheet'>
     <link rel="stylesheet" href="../assets/css/actualizar.css">
 </head>
 <body>
     <header>
-        <h1>Actualizar</h1>
+        <h1>Actualizar Datos</h1>
     </header>
     <main>
-        <div id="mensaje"></div> <!-- Para mostrar mensajes de éxito o error -->
+        <div id="mensaje"></div> <!-- Para mostrar mensajes de éxito o erro r -->
 
-        <form id="updateForm">
-            <div class="form-group">
-                <label for="id">ID:</label>
-                <input type="text" id="id" name="id" required>
+        <div class="form-group">
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id" required>
+        </div>
+
+        <form id="addForm">
+            <div class="form-group" id="CP-Tipo">
+                <div class="_CP">
+                    <label for="codigoPostal">Código Postal:</label>
+                    <input type="text" id="codigoPostal" name="codigoPostal" maxlength="5" required>
+                    <button type="srchCP" id="srchCP" name="srchCP"><i class="gg-search"></i>Buscar código postal</button>
+                </div>
+                <div class="tipo-espacio">
+                    <label for="tipo-espacio">Tipo de espacio:</label>
+                    <select id="tipo-espacio" name="tipo-espacio" required>
+                        <option value="" selected disabled>Selecciona un tipo de espacio...</option>
+                        <option value="Parque">Parque</option>
+                        <option value="Deportivo">Deportivo</option>
+                    </select>
+                </div>
+                
+                
             </div>
-            <div class="form-group">
-                <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado" required>
+
+            <div class="form-group" id = "estado-municipio">
+                
+                <div class = "estado">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="estado" required>
+                        <option value="" selected disabled>Selecciona un estado</option>
+                    </select>
+                </div>
+                <div class = "municipio">
+                    <label for="ciudad_municipio">Ciudad/Municipio:</label>
+                    <select id="ciudad_municipio" name="ciudad_municipio" required>
+                        <option value="" selected disabled>Selecciona una ciudad/municipio</option>
+                    </select>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label for="ciudad_municipio">Ciudad/Municipio:</label>
-                <input type="text" id="ciudad_municipio" name="ciudad_municipio" required>
+
+            <div class="form-group" id = "asentamiento-calle">
+
+                <div class="asentamiento">
+                    <label for="asentamiento">Asentamiento:</label>
+                    <select id="asentamiento" name="asentamiento" required>
+                        <option value="" selected disabled>Selecciona un asentamiento</option>
+                    </select>
+                </div>
+                <div class="calle">
+                    <label for="calle">Calle:</label>
+                    <input type="text" id="calle" name="calle" required>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label for="colonia">Colonia:</label>
-                <input type="text" id="colonia" name="colonia" required>
+
+            <diV class="form-group" id = "entreCalles-Nums">
+
+                <div class="entre-calles">
+                    <label for="entCalles">Entre Calles:</label>
+                    <input type="text" id="entCalles" name="entCalles">
+                </div>
+                <div class="numExt">
+                    <label for="numExt">Num. Ext.:</label>
+                    <input type="text" id="numExt" name="numExt">
+                </div>
+                <div class="numInt">
+                    <label for="numInt">Num Int.:</label>
+                    <input type="text" id="numInt" name="numInt">
+                </div>
+
+            </diV>
+
+            <div class="form-group" id="horarios">
+
+                <div class="horario-inicio">
+                    <label for="horario-inicio">Hora de apertura:</label>
+                    <input type="time" id="horario-inicio" name="horario-inicio">
+                </div>
+                <div class="horario-fin">
+                    <label for="horario-fin">Hora de cierre:</label>
+                    <input type="time" id="horario-fin" name="horario-fin">
+                </div>
+
             </div>
-            <div class="form-group">
-                <label for="calle">Calle:</label>
-                <input type="text" id="calle" name="calle" required>
-            </div>
+
+
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required>
             </div>
-            <div class="button-group">
-                <button type="button" id="regresarTabla" class="cancel-button">Regresar</button>
-                <button type="submit" class="update-button">Actualizar</button>
+
+            <div class="form-group" id ="control-buttons">
+                <button type="button" id="regresarTabla" class="cancel-button">Cancelar</button>
+                <button type="button" id="subirDatos" class="register-button">Continuar</button>
             </div>
+            
+            <div class ="cuadro-emergente" id="confirmacion">
+                <div class="contenido-emergente">
+                    <h2>Confirmación</h2>
+                    <p>He actualizado correctamente los datos</p>
+                    <button type="button" id="regresarForm" class="cancel-button">Cancelar</button>
+                    <button type="submit" id="confirm-add" class="add-button" name="agregar">Confirmar</button>
+                </div>
+            </div>
+
         </form>
+
     </main>
-    
+
     <script>
         document.getElementById("updateForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Evitar el envío del formulario por defecto
@@ -67,5 +146,6 @@
             window.location.href = "tabla.html"; // Redirigir a tabla.html
         });
     </script>
+
 </body>
 </html>
