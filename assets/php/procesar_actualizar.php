@@ -30,25 +30,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Recibir datos del formulario
         $id = $_POST['id'];
-        $estado = $_POST['estado'];
-        $ciudad_municipio = $_POST['ciudad_municipio'];
-        $colonia = $_POST['colonia'];
-        $calle = $_POST['calle'];
         $nombre = $_POST['nombre'];
+        $estado = $_POST['estado'];
+        $municipio_delegacion = $_POST['municipio_delegacion'];
+        $asentamiento = $_POST['asentamiento'];
+        $calle = $_POST['calle'];
+        $entre_calles = $_POST['entCalles'];
+        $num_ext = $_POST['numExt'];
+        $num_int = $_POST['numInt'];
+        $codigo_postal = $_POST['codigo_postal'];
+        $horario_inicio = $_POST['horario-inicio'];
+        $horario_fin = $_POST['horario-fin'];
+        $tipo_espacio = $_POST['horario-espacio'];
 
         // Preparar la consulta SQL para actualizar usando sentencias preparadas
-        $sql = "UPDATE datos SET estado=?, ciudad_municipio=?, colonia=?, calle=?, nombre=? WHERE id=?";
+        $sql = "UPDATE datos SET nombre=?, estado=?, municipio_delegacion=?, asentamiento=?, calle=?, entre_calles=?, num_ext=?, num_int=?, codigo_postal=?, horario_inicio=?, horario_fin=?, tipo_espacio=? WHERE id=?";
 
         // Preparar la sentencia
         $stmt = $conn->prepare($sql);
 
         // Vincular los parámetros a la sentencia
-        $stmt->bindParam(1, $estado);
-        $stmt->bindParam(2, $ciudad_municipio);
-        $stmt->bindParam(3, $colonia);
-        $stmt->bindParam(4, $calle);
-        $stmt->bindParam(5, $nombre);
-        $stmt->bindParam(6, $id);
+        $stmt->bindParam(1, $nombre);
+        $stmt->bindParam(2, $estado);
+        $stmt->bindParam(3, $municipio_delegacion);
+        $stmt->bindParam(4, $asentamiento);
+        $stmt->bindParam(5, $calle);
+        $stmt->bindParam(6, $entre_calles);
+        $stmt->bindParam(7, $num_ext);
+        $stmt->bindParam(8, $num_int);
+        $stmt->bindParam(9, $codigo_postal);
+        $stmt->bindParam(10, $horario_inicio);
+        $stmt->bindParam(11, $horario_fin);
+        $stmt->bindParam(12, $tipo_espacio);
+        $stmt->bindParam(13, $id);
 
         // Ejecutar la sentencia
         $stmt->execute();
